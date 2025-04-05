@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz | Smart Classroom</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #e0e7ff;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 80px;
+            --header-height: 70px;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f2 100%);
+            min-height: 100vh;
+            display: flex;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: white;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-toggle {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 24px;
+            width: 30px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .header-btn .material-icons {
+            font-size: 1.4rem;
+        }
+
+        .header-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            transition: var(--transition);
+            z-index: 900;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .sidebar h2::after {
+            content: "";
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .sidebar-collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-collapsed .sidebar-item-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .sidebar-item {
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .sidebar-collapsed .sidebar-item i {
+            margin-right: 0;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            margin: 5px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: white;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: white;
+            color: var(--primary);
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-item i {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+
+        .sidebar-item-text {
+            font-size: 1rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: 30px;
+            width: calc(100% - var(--sidebar-width));
+            transition: var(--transition);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .main-content-expanded {
+            margin-left: var(--sidebar-collapsed-width);
+            width: calc(100% - var(--sidebar-collapsed-width));
+        }
+
+        /* Quiz Form Container */
+        .quiz-form-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .quiz-form-container h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gray);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 40px;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .option-container:hover {
+            background: #e0f7fa;
+        }
+
+        .option-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 8px;
+            font-size: 0.95rem;
+        }
+
+        .option-icon {
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .option-icon:hover {
+            color: var(--success);
+            transform: scale(1.1);
+        }
+
+        .option-icon.correct {
+            color: var(--success);
+        }
+
+        /* Question Container */
+        .question-container {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-container h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        .btn i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #1e7e34);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #1e7e34, var(--success));
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .main-content-expanded {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .quiz-form-container {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                padding: 0 10px;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .quiz-form-container {
+                padding: 20px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .header {
+            background: #1e1e1e;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .sidebar {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        body.dark-mode .main-content {
+            background: transparent;
+        }
+
+        body.dark-mode .quiz-form-container {
+            background: #2d2d2d;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .form-control {
+            background-color: #333;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.3);
+        }
+
+        body.dark-mode .question-container {
+            background: #333;
+        }
+
+        body.dark-mode .option-container {
+            background: #3a3a3a;
+        }
+
+        body.dark-mode .option-input {
+            background: transparent;
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .footer {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-thumb {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">
+                <i class="material-icons">school</i>
+                <span>Smart Classroom</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="dark-mode-toggle tooltip">
+                <input type="checkbox" id="darkModeToggle">
+                <label for="darkModeToggle" class="dark-mode-slider"></label>
+                <span class="tooltiptext">Toggle Dark Mode</span>
+            </div>
+      
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <h2>Teacher Panel</h2>
+        <a href="/teacher-dashboard" class="sidebar-item">
+            <i class="material-icons">dashboard</i>
+            <span class="sidebar-item-text">Dashboard</span>
+        </a>
+        <a href="/teacher-classrooms" class="sidebar-item">
+            <i class="material-icons">class</i>
+            <span class="sidebar-item-text">Classrooms</span>
+        </a>
+        <a href="/teacher-classrooms-manage" class="sidebar-item">
+            <i class="material-icons">book</i>
+            <span class="sidebar-item-text">Subjects</span>
+        </a>
+        <a href="/create-quiz" class="sidebar-item active">
+            <i class="material-icons">quiz</i>
+            <span class="sidebar-item-text">Quizzes</span>
+        </a>
+        <a href="/classrooms" class="sidebar-item">
+            <i class="material-icons">assessment</i>
+            <span class="sidebar-item-text">Progress</span>
+        </a>
+        <a href="student_feedback.html" class="sidebar-item">
+            <i class="material-icons">feedback</i>
+            <span class="sidebar-item-text">Feedback</span>
+        </a>
+        <a href="/" class="sidebar-item">
+            <i class="material-icons">logout</i>
+            <span class="sidebar-item-text">Logout</span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="quiz-form-container" data-aos="fade-up">
+            <h2>Create New Quiz</h2>
+
+            <!-- Quiz Meta Information -->
+            <div class="form-group">
+                <select id="quiz-level" class="form-control">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <select id="quiz-for" class="form-control">
+                    <option value="10th">10th Grade</option>
+                    <option value="12th">12th Grade</option>
+                    <option value="engineering">Engineering</option>
+                    <option value="be">BE</option>
+                    <option value="btech">BTech</option>
+                    <option value="mba">MBA</option>
+                </select>
+            </div>
+
+            <!-- Quiz Title and Description -->
+            <div class="form-group">
+                <input type="text" id="quiz-title" class="form-control" placeholder="Quiz Title">
+            </div>
+            
+            <div class="form-group">
+                <textarea id="quiz-description" class="form-control" placeholder="Quiz Description" rows="3"></textarea>
+            </div>
+
+            <!-- Dynamic Questions Container -->
+            <div id="questions-container">
+                <!-- Question Template -->
+                <div class="question-container">
+                    <h3>Question 1</h3>
+                    <div class="form-group">
+                        <input type="text" class="question-input form-control" placeholder="Enter your question">
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 1">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 2">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 3">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 4">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Question Button -->
+            <button class="btn" onclick="addQuestion()">
+                <i class="material-icons">add</i> Add Question
+            </button>
+
+            <!-- Submit Quiz Button -->
+            <button class="btn btn-success" onclick="submitQuiz()">
+                <i class="material-icons">check</i> Submit Quiz
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" data-aos="fade-up">
+            <p>&copy; 2025 Smart Classroom | All Rights Reserved</p>
+        </footer>
+    </main>
+
+    <!-- AOS (Animate On Scroll) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Toggle sidebar
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // For desktop - toggle between expanded and collapsed
+            if (window.innerWidth > 992) {
+                sidebar.classList.toggle('sidebar-collapsed');
+                mainContent.classList.toggle('main-content-expanded');
+            }
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+            // Save user preference in localStorage
+            localStorage.setItem('darkMode', this.checked);
+        });
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        let questionCount = 1;
+
+        // Function to add a new question
+        function addQuestion() {
+            questionCount++;
+            const questionsContainer = document.getElementById('questions-container');
+            const newQuestion = `
+                <div class="question-container">
+                    <h3>Question ${questionCount}</h3>
+                    <div class="form-group">
+                        <input type="text" class="question-input form-control" placeholder="Enter your question">
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 1">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 2">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 3">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-container">
+                            <input type="text" class="option-input" placeholder="Option 4">
+                            <span class="material-icons option-icon" onclick="markCorrect(this)">check_circle</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            questionsContainer.insertAdjacentHTML('beforeend', newQuestion);
+        }
+        
+        // Function to mark the correct option (now question-specific)
+        function markCorrect(icon) {
+            // Get all icons within the same question container
+            const questionDiv = icon.closest('.question-container');
+            const icons = questionDiv.querySelectorAll('.option-icon');
+            
+            // Reset all icons in this question
+            icons.forEach(i => {
+                i.classList.remove('correct');
+                i.style.color = '';
+            });
+            
+            // Highlight the selected correct option
+            icon.classList.add('correct');
+            icon.style.color = 'var(--success)';
+        }
+        
+        // Function to submit the quiz
+        async function submitQuiz() {
+            const quizTitle = document.getElementById('quiz-title').value;
+            const quizDescription = document.getElementById('quiz-description').value;
+            const quizLevel = document.getElementById('quiz-level').value;
+            const quizFor = document.getElementById('quiz-for').value;
+            const questions = [];
+            let hasInvalidQuestions = false;
+            let invalidQuestionNumbers = [];
+        
+            document.querySelectorAll('.question-container').forEach((questionDiv, index) => {
+                const questionText = questionDiv.querySelector('.question-input').value;
+                const options = [];
+                let correctOption = -1;
+        
+                // Check all options in this question
+                let allOptionsFilled = true;
+                questionDiv.querySelectorAll('.option-container').forEach((optionDiv, optionIndex) => {
+                    const optionText = optionDiv.querySelector('.option-input').value;
+                    options.push(optionText);
+                    
+                    // Check if this option is marked correct
+                    if (optionDiv.querySelector('.option-icon').classList.contains('correct')) {
+                        correctOption = optionIndex;
+                    }
+                    
+                    if (!optionText.trim()) {
+                        allOptionsFilled = false;
+                    }
+                });
+        
+                // Skip invalid questions but continue processing others
+                if (!questionText.trim() || !allOptionsFilled || correctOption === -1) {
+                    hasInvalidQuestions = true;
+                    invalidQuestionNumbers.push(index + 1);
+                    return; // Skip to next question
+                }
+        
+                // Add valid question to the list
+                questions.push({
+                    question: questionText,
+                    options: options,
+                    correctOption: correctOption
+                });
+            });
+        
+            if (!quizTitle || !quizDescription) {
+                alert('Please fill in the quiz title and description.');
+                return;
+            }
+        
+            if (questions.length === 0) {
+                alert('Please add at least one valid question with all options and a correct answer marked.');
+                return;
+            }
+        
+            if (hasInvalidQuestions) {
+                const confirmSubmit = confirm(
+                    `Questions ${invalidQuestionNumbers.join(', ')} are incomplete.\n` +
+                    `Only ${questions.length} valid questions will be saved.\n` +
+                    `Do you want to proceed?`
+                );
+                if (!confirmSubmit) return;
+            }
+        
+            const quizData = {
+                title: quizTitle,
+                description: quizDescription,
+                level: quizLevel,
+                for: quizFor,
+                questions: questions
+            };
+        
+            // Send data to the backend
+            try {
+                const response = await fetch('/create-quiz', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(quizData)
+                });
+        
+                if (response.ok) {
+                    alert(`Quiz created successfully with ${questions.length} questions!`);
+                    window.location.href = '/teacher-dashboard';
+                } else {
+                    const errorData = await response.json();
+                    alert(`Failed to create quiz: ${errorData.message || response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while creating the quiz.');
+            }
+        }
+
+        // Responsive adjustments
+        function handleResize() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // Initialize tooltips
+        const tooltips = document.querySelectorAll('.tooltip');
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', function() {
+                const tooltiptext = this.querySelector('.tooltiptext');
+                tooltiptext.style.visibility = 'visible';
+                tooltiptext.style.opacity = '1';
+            });
+            
+            tooltip.addEventListener('mouseleave', function() {
+                const tooltiptext = this.querySelector('.tooltiptext');
+                tooltiptext.style.visibility = 'hidden';
+                tooltiptext.style.opacity = '0';
+            });
+        });
+    </script>
+</body>
+</html>

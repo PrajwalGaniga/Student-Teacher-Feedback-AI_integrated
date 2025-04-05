@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Classroom</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Fredoka+One&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lottie Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Floating educational elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            color: white;
+            z-index: 10;
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        .logo-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        #lottie-logo {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .app-name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-top: 20px;
+            font-family: 'Fredoka One', cursive;
+            text-shadow: 3px 3px 15px rgba(242, 88, 50, 0.4);
+            background: linear-gradient(to right, #fff, #c9d6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color:burlywood;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .app-name::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: underline 2s 1.5s forwards;
+        }
+        
+        @keyframes underline {
+            to { transform: scaleX(1); }
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            opacity: 0;
+            animation: fadeIn 1s 2s forwards;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .hidden {
+            display: none;
+            opacity: 0;
+        }
+        
+        .portal-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .portal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s 0.3s;
+        }
+        
+        .portal-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .portal-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(to right, #fff, #c9d6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .portal-thought {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .portal-thought::before,
+        .portal-thought::after {
+            content: '"';
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            position: absolute;
+        }
+        
+        .portal-thought::before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .portal-thought::after {
+            bottom: -20px;
+            right: 0;
+        }
+        
+        .portal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(8, 115, 237, 0.3);
+            transform: translateY(30px);
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .portal-options.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .portal-options a {
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #003c8f, #0066ff);
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .portal-options a i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .portal-options a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(42, 255, 18, 0.3);
+            background: linear-gradient(45deg, #002b6f, #0055ff);
+        }
+        
+        .portal-options a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .portal-options a:hover::before {
+            left: 100%;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .app-name {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .portal-title {
+                font-size: 2rem;
+            }
+            
+            .portal-thought {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            .portal-options {
+                padding: 20px 25px;
+            }
+            
+            .portal-options a {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles background -->
+    <div id="particles-js"></div>
+    
+    <!-- Floating educational elements -->
+    <div class="floating-elements">
+        <i class="floating-element fas fa-book" style="font-size: 30px; top: 10%; left: 15%;"></i>
+        <i class="floating-element fas fa-pencil-alt" style="font-size: 25px; top: 25%; left: 80%; animation-delay: 2s;"></i>
+        <i class="floating-element fas fa-ruler-combined" style="font-size: 35px; top: 70%; left: 20%; animation-delay: 4s;"></i>
+        <i class="floating-element fas fa-flask" style="font-size: 40px; top: 50%; left: 75%; animation-delay: 1s;"></i>
+        <i class="floating-element fas fa-calculator" style="font-size: 20px; top: 80%; left: 65%; animation-delay: 3s;"></i>
+        <i class="floating-element fas fa-atom" style="font-size: 50px; top: 15%; left: 50%; animation-delay: 5s;"></i>
+    </div>
+    
+    <div class="container" id="intro">
+        <div class="logo-container">
+            <div id="lottie-logo"></div>
+        </div>
+        
+        <h1 class="app-name animate__animated animate__fadeInDown">SMART CLASSROOM!</h1>
+        <p class="tagline">Where Learning Meets Innovation</p>
+    </div>
+    
+    <div class="portal-container hidden" id="options">
+        <div class="portal-header" id="portal-header">
+            <h2 class="portal-title">Welcome to Smart Classroom</h2>
+            <p class="portal-thought">Education is the most powerful weapon which you can use to change the world. Let's embark on this journey of knowledge together.</p>
+        </div>
+        <div class="portal-options">
+            <a href="/student-login">
+                <i class="fas fa-user-graduate"></i>
+                Student Portal
+            </a>
+            <a href="/teacher-login">
+                <i class="fas fa-chalkboard-teacher"></i>
+                Teacher Portal
+            </a>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Lottie animation for logo
+        const logoAnimation = lottie.loadAnimation({
+            container: document.getElementById('lottie-logo'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets5.lottiefiles.com/packages/lf20_vybwn7df.json'
+        });
+        
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 2,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": false,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Animation sequence
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the app name letters individually
+            const appName = document.querySelector('.app-name');
+            const letters = appName.textContent.split('');
+            appName.innerHTML = '';
+            
+            letters.forEach((letter, index) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.display = 'inline-block';
+                span.style.transform = 'translateY(0)';
+                span.style.transition = `transform 0.3s ${index * 0.05}s`;
+                appName.appendChild(span);
+                
+                if (window.innerWidth > 768) {
+                    span.addEventListener('mouseover', () => {
+                        span.style.transform = 'translateY(-15px)';
+                        setTimeout(() => {
+                            span.style.transform = 'translateY(0)';
+                        }, 300);
+                    });
+                }
+            });
+            
+            // Click handler for the intro section
+            document.getElementById("intro").addEventListener("click", function() {
+                this.classList.add('animate__animated', 'animate__fadeOut');
+                
+                setTimeout(() => {
+                    this.style.display = "none";
+                    const options = document.getElementById("options");
+                    options.classList.remove("hidden");
+                    
+                    // Animate the header first
+                    const header = document.getElementById("portal-header");
+                    setTimeout(() => {
+                        header.classList.add("visible");
+                    }, 50);
+                    
+                    // Then animate the options
+                    setTimeout(() => {
+                        document.querySelector(".portal-options").classList.add("visible");
+                    }, 300);
+                }, 800);
+            });
+            
+            // Auto-trigger animation after 3 seconds if no interaction
+            const autoTrigger = setTimeout(() => {
+                document.getElementById("intro").click();
+            }, 5000);
+            
+            // Cancel auto-trigger if user interacts
+            document.addEventListener('click', () => {
+                clearTimeout(autoTrigger);
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>

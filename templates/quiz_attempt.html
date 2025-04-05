@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2962ff;
+            --primary-dark: #0039cb;
+            --primary-light: #768fff;
+            --error-color: #ff3d00;
+            --success-color: #00c853;
+            --light-bg: #f5f7fa;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            min-height: 100vh;
+            color: #424242;
+        }
+
+        /* Student ID Form */
+        #student-id-form {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            margin: 50px auto;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        #student-id-form h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        #student-id-form h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        #student-id-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+        
+        #student-id-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(41, 98, 255, 0.1);
+        }
+        
+        #student-id-form button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(41, 98, 255, 0.2);
+        }
+        
+        #student-id-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3);
+        }
+        
+        #student-id-form button:active {
+            transform: translateY(0);
+        }
+        
+        #verification-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        /* Quiz Container */
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .quiz-full-page {
+            padding: 30px;
+            display: none;
+        }
+        
+        .quiz-container h3 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .quiz-container h3::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 10px auto 20px;
+            border-radius: 2px;
+        }
+        
+        .quiz-container p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+        
+        /* Questions */
+        .question-container {
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+        
+        .question {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 500;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .options {
+            padding: 10px;
+            background: white;
+        }
+        
+        .option {
+            margin: 8px 0;
+            position: relative;
+        }
+        
+        .option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .option label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .option label:hover {
+            background: #f1f8ff;
+            border-color: var(--primary-light);
+        }
+        
+        .option input:checked + label {
+            background: #e3f2fd;
+            border-color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .option input:checked + label::before {
+            content: '✓';
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(41, 98, 255, 0.2);
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(41, 98, 255, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #student-id-form, .quiz-container {
+                padding: 25px;
+                margin: 20px;
+            }
+            
+            #student-id-form h3, .quiz-container h3 {
+                font-size: 1.5rem;
+            }
+            
+            .question {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Student ID Form -->
+    <div id="student-id-form">
+        <h3>Enter Your Student ID</h3>
+        <input type="text" id="student-id-input" placeholder="Student ID">
+        <button onclick="verifyStudentId()">
+            <i class="material-icons" style="margin-right: 8px;">verified_user</i>Verify
+        </button>
+        <p id="verification-message"></p>
+    </div>
+
+    <!-- Quiz Container (initially hidden) -->
+    <div class="quiz-full-page">
+        <div class="quiz-container">
+            <h3>{{ quiz.title }}</h3>
+            <p>{{ quiz.description }}</p>
+            <div id="questions-container">
+                {% for question in quiz.questions %}
+                {% set question_index = loop.index0 %}
+                    <div class="question-container" data-question-index="{{ question_index }}">
+                        <div class="question" data-question="{{ question.question }}" 
+                             data-correct-option="{{ question.options[question.correctOption] }}">
+                            Q{{ loop.index }}. {{ question.question }}
+                        </div>
+                        <div class="options">
+                            {% for option in question.options %}
+                                <div class="option">
+                                    <input type="radio" 
+                                           id="option_{{ question_index }}_{{ loop.index0 }}" 
+                                           name="question_{{ question_index }}" 
+                                           value="{{ option }}"
+                                           onclick="toggleOption(this)">
+                                    <label for="option_{{ question_index }}_{{ loop.index0 }}">{{ option }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="submit-btn" onclick="submitQuiz()">
+                <i class="material-icons" style="margin-right: 8px;">send</i>Submit Quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let verifiedStudentId = null;
+        let selectedOptions = {}; // Track selected options per question
+
+        // Enable toggle behavior for radio buttons
+        function toggleOption(radio) {
+            const questionIndex = radio.name.split('_')[1];
+            
+            if (selectedOptions[questionIndex] === radio.value) {
+                // Clicking the selected option deselects it
+                radio.checked = false;
+                delete selectedOptions[questionIndex];
+            } else {
+                // Select new option
+                selectedOptions[questionIndex] = radio.value;
+                // Uncheck other options in the same question
+                document.querySelectorAll(`.question-container[data-question-index="${questionIndex}"] input[type="radio"]`).forEach(r => {
+                    if (r !== radio) r.checked = false;
+                });
+            }
+        }
+
+        async function verifyStudentId() {
+            const studentId = document.getElementById('student-id-input').value;
+            const messageEl = document.getElementById('verification-message');
+            
+            if (!studentId) {
+                messageEl.innerText = 'Please enter a Student ID';
+                messageEl.style.color = 'var(--error-color)';
+                messageEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                messageEl.innerText = 'Verifying...';
+                messageEl.style.color = '#666';
+                messageEl.style.display = 'block';
+                
+                const response = await fetch('/verify-student-id', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ student_id: studentId })
+                });
+
+                const result = await response.json();
+                if (result.exists) {
+                    messageEl.innerText = 'Student ID verified! Loading quiz...';
+                    messageEl.style.color = 'var(--success-color)';
+                    
+                    // Hide student ID form and show full page quiz
+                    document.getElementById('student-id-form').style.display = 'none';
+                    document.querySelector('.quiz-full-page').style.display = 'block';
+                    document.querySelector('.quiz-container').style.display = 'block';
+                    verifiedStudentId = studentId;
+                } else {
+                    messageEl.innerText = 'Invalid Student ID. Please try again.';
+                    messageEl.style.color = 'var(--error-color)';
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                messageEl.innerText = 'Error during verification';
+                messageEl.style.color = 'var(--error-color)';
+            }
+        }
+
+        async function submitQuiz() {
+            if (!verifiedStudentId) {
+                alert('Please verify your student ID first.');
+                return;
+            }
+
+            const quizId = "{{ quiz._id }}";
+            const questionContainers = document.querySelectorAll('.question-container');
+            let answers = [];
+            let correctAnswers = 0;
+            let allAnswered = true;
+
+            questionContainers.forEach((container, index) => {
+                const questionText = container.querySelector('.question').getAttribute('data-question');
+                const correctOption = container.querySelector('.question').getAttribute('data-correct-option');
+                const selectedValue = selectedOptions[index] || null;
+                
+                if (selectedValue === null) {
+                    allAnswered = false;
+                    container.style.border = '2px solid var(--error-color)';
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                } else {
+                    container.style.border = 'none';
+                }
+
+                const isCorrect = selectedValue === correctOption;
+                if (isCorrect) correctAnswers++;
+
+                answers.push({
+                    question: questionText,
+                    selected_option: selectedValue,
+                    correct_option: correctOption
+                });
+            });
+
+            if (!allAnswered) {
+                alert('Please answer all questions before submitting.');
+                return;
+            }
+
+            try {
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="material-icons" style="margin-right:8px;">hourglass_empty</i>Submitting...';
+                submitBtn.disabled = true;
+                
+                const response = await fetch('/submit-quiz', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        student_id: verifiedStudentId,
+                        quiz_id: quizId,
+                        correct_answers: correctAnswers,
+                        answers: answers
+                    })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(`Quiz submitted successfully! Your score: ${result.score.toFixed(1)}%`);
+                    // Optionally redirect or reset the quiz
+                } else {
+                    alert('Failed to submit quiz.');
+                    submitBtn.innerHTML = '<i class="material-icons" style="margin-right:8px;">send</i>Submit Quiz';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Error submitting quiz.');
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="material-icons" style="margin-right:8px;">send</i>Submit Quiz';
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

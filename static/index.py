@@ -1,0 +1,1 @@
+return RedirectResponse(url=f"/student-profile/{student['student_id']}", status_code=status.HTTP_303_SEE_OTHER)

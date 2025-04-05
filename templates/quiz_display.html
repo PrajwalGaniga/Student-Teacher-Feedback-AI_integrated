@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Quizzes | Smart Classroom</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #e0e7ff;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --easy-color: #00c853;
+            --medium-color: #ff9100;
+            --hard-color: #ff3d00;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        /* Header Styles */
+        .header-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--primary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.8) 0%, rgba(58, 12, 163, 0.9) 90%);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--easy-color), var(--medium-color), var(--hard-color));
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+            animation: fadeInDown 0.8s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            margin: 10px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle-container {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode-toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .dark-mode-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .dark-mode-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .dark-mode-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .dark-mode-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .dark-mode-slider:before {
+            transform: translateX(26px);
+        }
+
+        .dark-mode-label {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Filters */
+        .filters-container {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 0 auto;
+            max-width: 900px;
+            animation: fadeIn 0.8s ease 0.4s both;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .filter-group label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 8px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+            z-index: 1;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filters select, .filters input {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 14px;
+            width: 100%;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            appearance: none;
+            position: relative;
+            z-index: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .filters input {
+            padding-left: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 15px center;
+        }
+
+        .filters select:hover, .filters input:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        }
+
+        .filters select:focus, .filters input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+        }
+
+        .filter-group::after {
+            content: 'expand_more';
+            font-family: 'Material Icons';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--gray);
+        }
+
+        /* Level Sections */
+        .level-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        .level-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--easy-color), var(--medium-color), var(--hard-color));
+            opacity: 0.2;
+        }
+
+        .level-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .level-header {
+            padding: 18px 25px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .level-header i {
+            margin-right: 12px;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-header span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .easy-header { background: var(--easy-color); }
+        .medium-header { background: var(--medium-color); }
+        .hard-header { background: var(--hard-color); }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 25px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: currentColor;
+            opacity: 0.2;
+        }
+
+        .quiz-card.easy { border-color: var(--easy-color); color: var(--easy-color); }
+        .quiz-card.medium { border-color: var(--medium-color); color: var(--medium-color); }
+        .quiz-card.hard { border-color: var(--hard-color); color: var(--hard-color); }
+
+        .quiz-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .quiz-content {
+            padding: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            background: rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .quiz-card:hover .quiz-icon-container {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(0,0,0,0.1);
+        }
+
+        .quiz-icon {
+            font-size: 32px;
+        }
+
+        .quiz-card h3 {
+            margin: 0 0 12px;
+            color: var(--dark);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .quiz-card p {
+            margin: 10px 0;
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .quiz-meta {
+            display: flex;
+            gap: 15px;
+            margin: 18px 0;
+            flex-wrap: wrap;
+        }
+
+        .quiz-meta span {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .quiz-meta i {
+            font-size: 1rem;
+            margin-right: 6px;
+        }
+
+        .quiz-card a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .quiz-card a:hover::before {
+            opacity: 1;
+        }
+
+        .quiz-card.easy a {
+            background: var(--easy-color);
+            color: white;
+        }
+
+        .quiz-card.medium a {
+            background: var(--medium-color);
+            color: white;
+        }
+
+        .quiz-card.hard a {
+            background: var(--hard-color);
+            color: white;
+        }
+
+        .quiz-card a:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+
+        .quiz-card a i {
+            margin-left: 8px;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-card a:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            grid-column: 1 / -1;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .fab:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .fab i {
+            font-size: 1.8rem;
+        }
+
+        /* Difficulty Badges */
+        .difficulty-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .easy-badge {
+            background: rgba(0, 200, 83, 0.1);
+            color: var(--easy-color);
+            border: 1px solid rgba(0, 200, 83, 0.3);
+        }
+
+        .medium-badge {
+            background: rgba(255, 145, 0, 0.1);
+            color: var(--medium-color);
+            border: 1px solid rgba(255, 145, 0, 0.3);
+        }
+
+        .hard-badge {
+            background: rgba(255, 61, 0, 0.1);
+            color: var(--hard-color);
+            border: 1px solid rgba(255, 61, 0, 0.3);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .quiz-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .quiz-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+                padding-right: 60px;
+                padding-left: 60px;
+            }
+
+            .filters {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .level-header {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .quiz-grid {
+                padding: 15px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        body.dark-mode .filters-container {
+            background: #2d2d2d;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .filter-group label {
+            background: #2d2d2d;
+            color: var(--accent);
+        }
+
+        body.dark-mode .filters select,
+        body.dark-mode .filters input {
+            background: #333;
+            color: #f0f0f0;
+            border-color: #444;
+        }
+
+        body.dark-mode .filter-group::after {
+            color: #bbb;
+        }
+
+        body.dark-mode .level-section,
+        body.dark-mode .quiz-card {
+            background: #2d2d2d;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode .quiz-card h3 {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .quiz-card p,
+        body.dark-mode .quiz-meta span,
+        body.dark-mode .empty-state {
+            color: #bbb;
+        }
+
+        body.dark-mode .quiz-icon-container {
+            background: rgba(255,255,255,0.1);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-thumb {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Container -->
+    <div class="header-container">
+        <!-- Back Button -->
+        <button class="back-btn animate__animated animate__fadeIn" onclick="window.location.href='/student-dashboard'">
+            <i class="material-icons">arrow_back</i>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <div class="dark-mode-toggle-container animate__animated animate__fadeIn">
+            <span class="dark-mode-label">Dark Mode</span>
+            <label class="dark-mode-toggle">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="dark-mode-slider"></span>
+            </label>
+        </div>
+
+        <!-- Header Content -->
+        <div class="header">
+            <div class="header-content">
+                <h1 class="animate__animated animate__fadeInDown">Available Quizzes</h1>
+                <p class="animate__animated animate__fadeIn">Test your knowledge with our interactive quizzes</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-container animate__animated animate__fadeIn">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="search-filter">Search Quizzes</label>
+                    <input type="text" id="search-filter" placeholder="Search by title...">
+                </div>
+                <div class="filter-group">
+                    <label for="level-filter">Difficulty</label>
+                    <select id="level-filter">
+                        <option value="">All Levels</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="profession-filter">Category</label>
+                    <select id="profession-filter">
+                        <option value="">All Categories</option>
+                        <option value="10th">10th Grade</option>
+                        <option value="12th">12th Grade</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="be">BE</option>
+                        <option value="btech">BTech</option>
+                        <option value="mba">MBA</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Sections -->
+    <div class="level-sections">
+        <!-- Easy Quizzes Section -->
+        <div class="level-section animate__animated animate__fadeInUp" data-aos="fade-up">
+            <div class="level-header easy-header">
+                <i class="material-icons">mood</i>
+                <span>Beginner Level Quizzes</span>
+            </div>
+            <div class="quiz-grid" id="easy-quizzes">
+                {% for quiz in quizzes if quiz.level == 'easy' %}
+                <div class="quiz-card easy animate__animated animate__fadeInUp" data-aos="fade-up" data-level="easy" data-profession="{{ quiz.for|lower }}" data-title="{{ quiz.title|lower }}">
+                    <div class="difficulty-badge easy-badge">Easy</div>
+                    <div class="quiz-content">
+                        <div class="quiz-icon-container">
+                            <span class="material-icons quiz-icon">quiz</span>
+                        </div>
+                        <h3>{{ quiz.title }}</h3>
+                        <p>{{ quiz.description }}</p>
+                        <div class="quiz-meta">
+                            <span><i class="material-icons">school</i>{{ quiz.for }}</span>
+                            <span><i class="material-icons">schedule</i>{{ quiz.duration }} mins</span>
+                            <span><i class="material-icons">question_answer</i>{{ quiz.questions|length }} Qs</span>
+                        </div>
+                        <a href="/quiz-attempt/{{ quiz._id }}">
+                            Start Quiz
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="material-icons">sentiment_dissatisfied</i>
+                    <p>No easy quizzes available</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Medium Quizzes Section -->
+        <div class="level-section animate__animated animate__fadeInUp animate__delay-1s" data-aos="fade-up">
+            <div class="level-header medium-header">
+                <i class="material-icons">sentiment_satisfied</i>
+                <span>Intermediate Level Quizzes</span>
+            </div>
+            <div class="quiz-grid" id="medium-quizzes">
+                {% for quiz in quizzes if quiz.level == 'medium' %}
+                <div class="quiz-card medium animate__animated animate__fadeInUp" data-aos="fade-up" data-level="medium" data-profession="{{ quiz.for|lower }}" data-title="{{ quiz.title|lower }}">
+                    <div class="difficulty-badge medium-badge">Medium</div>
+                    <div class="quiz-content">
+                        <div class="quiz-icon-container">
+                            <span class="material-icons quiz-icon">quiz</span>
+                        </div>
+                        <h3>{{ quiz.title }}</h3>
+                        <p>{{ quiz.description }}</p>
+                        <div class="quiz-meta">
+                            <span><i class="material-icons">school</i>{{ quiz.for }}</span>
+                            <span><i class="material-icons">schedule</i>{{ quiz.duration }} mins</span>
+                            <span><i class="material-icons">question_answer</i>{{ quiz.questions|length }} Qs</span>
+                        </div>
+                        <a href="/quiz-attempt/{{ quiz._id }}">
+                            Start Quiz
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="material-icons">sentiment_neutral</i>
+                    <p>No medium quizzes available</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Hard Quizzes Section -->
+        <div class="level-section animate__animated animate__fadeInUp animate__delay-2s" data-aos="fade-up">
+            <div class="level-header hard-header">
+                <i class="material-icons">sentiment_very_dissatisfied</i>
+                <span>Advanced Level Quizzes</span>
+            </div>
+            <div class="quiz-grid" id="hard-quizzes">
+                {% for quiz in quizzes if quiz.level == 'hard' %}
+                <div class="quiz-card hard animate__animated animate__fadeInUp" data-aos="fade-up" data-level="hard" data-profession="{{ quiz.for|lower }}" data-title="{{ quiz.title|lower }}">
+                    <div class="difficulty-badge hard-badge">Hard</div>
+                    <div class="quiz-content">
+                        <div class="quiz-icon-container">
+                            <span class="material-icons quiz-icon">quiz</span>
+                        </div>
+                        <h3>{{ quiz.title }}</h3>
+                        <p>{{ quiz.description }}</p>
+                        <div class="quiz-meta">
+                            <span><i class="material-icons">school</i>{{ quiz.for }}</span>
+                            <span><i class="material-icons">schedule</i>{{ quiz.duration }} mins</span>
+                            <span><i class="material-icons">question_answer</i>{{ quiz.questions|length }} Qs</span>
+                        </div>
+                        <a href="/quiz-attempt/{{ quiz._id }}">
+                            Start Quiz
+                            <i class="material-icons">arrow_forward</i>
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="material-icons">sentiment_very_dissatisfied</i>
+                    <p>No hard quizzes available</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab animate__animated animate__fadeInUp animate__delay-3s" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="material-icons">arrow_upward</i>
+    </div>
+
+    <!-- AOS (Animate On Scroll) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+            // Save user preference in localStorage
+            localStorage.setItem('darkMode', this.checked);
+        });
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        // Quiz filtering functionality
+        const searchFilter = document.getElementById('search-filter');
+        const levelFilter = document.getElementById('level-filter');
+        const professionFilter = document.getElementById('profession-filter');
+        const allQuizCards = document.querySelectorAll('.quiz-card');
+
+        // Add event listeners to all filters
+        searchFilter.addEventListener('input', filterQuizzes);
+        levelFilter.addEventListener('change', filterQuizzes);
+        professionFilter.addEventListener('change', filterQuizzes);
+
+        function filterQuizzes() {
+            const searchTerm = searchFilter.value.toLowerCase();
+            const selectedLevel = levelFilter.value.toLowerCase();
+            const selectedProfession = professionFilter.value.toLowerCase();
+
+            allQuizCards.forEach(card => {
+                const cardLevel = card.dataset.level;
+                const cardProfession = card.dataset.profession;
+                const cardTitle = card.dataset.title;
+
+                // Check if card matches all filters
+                const levelMatch = selectedLevel === '' || cardLevel === selectedLevel;
+                const professionMatch = selectedProfession === '' || cardProfession.includes(selectedProfession);
+                const searchMatch = searchTerm === '' || cardTitle.includes(searchTerm);
+
+                if (levelMatch && professionMatch && searchMatch) {
+                    card.style.display = 'block';
+                    // Add animation class if not already animated
+                    if (!card.classList.contains('animate__fadeInUp')) {
+                        card.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Handle empty states for each section
+            document.querySelectorAll('.quiz-grid').forEach(grid => {
+                const visibleCards = grid.querySelectorAll('.quiz-card[style="display: block"]');
+                const emptyState = grid.querySelector('.empty-state');
+                
+                if (visibleCards.length === 0) {
+                    if (!emptyState) {
+                        const newEmptyState = document.createElement('div');
+                        newEmptyState.className = 'empty-state';
+                        newEmptyState.innerHTML = `
+                            <i class="material-icons">search_off</i>
+                            <p>No quizzes match your filters</p>
+                        `;
+                        grid.appendChild(newEmptyState);
+                    } else {
+                        emptyState.style.display = 'block';
+                    }
+                } else if (emptyState) {
+                    emptyState.style.display = 'none';
+                }
+            });
+        }
+
+        // Add hover effect to quiz cards
+        allQuizCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('animate__animated', 'animate__pulse');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('animate__animated', 'animate__pulse');
+            });
+        });
+
+        // Show floating action button when scrolling
+        window.addEventListener('scroll', function() {
+            const fab = document.querySelector('.fab');
+            if (window.scrollY > 300) {
+                fab.style.display = 'flex';
+            } else {
+                fab.style.display = 'none';
+            }
+        });
+
+        // Initialize filters
+        filterQuizzes();
+    </script>
+</body>
+</html>

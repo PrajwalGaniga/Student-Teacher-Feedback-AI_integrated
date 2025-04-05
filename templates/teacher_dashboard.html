@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | Smart Classroom</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #e0e7ff;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 80px;
+            --header-height: 70px;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f2 100%);
+            min-height: 100vh;
+            display: flex;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: white;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-toggle {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 24px;
+            width: 30px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .header-btn .material-icons {
+            font-size: 1.4rem;
+        }
+
+        .header-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--header-height));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            transition: var(--transition);
+            z-index: 900;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .sidebar h2::after {
+            content: "";
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .sidebar-collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-collapsed .sidebar-item-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .sidebar-item {
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .sidebar-collapsed .sidebar-item i {
+            margin-right: 0;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            margin: 5px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: white;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: white;
+            color: var(--primary);
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-item i {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+
+        .sidebar-item-text {
+            font-size: 1rem;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
+            padding: 30px;
+            width: calc(100% - var(--sidebar-width));
+            transition: var(--transition);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .main-content-expanded {
+            margin-left: var(--sidebar-collapsed-width);
+            width: calc(100% - var(--sidebar-collapsed-width));
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.05) 0%, rgba(76, 201, 240, 0.05) 100%);
+            z-index: -1;
+        }
+
+        .welcome-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .welcome-text p {
+            color: var(--gray);
+            font-size: 1rem;
+            max-width: 600px;
+        }
+
+        .welcome-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--accent);
+            box-shadow: 0 10px 25px rgba(76, 201, 240, 0.3);
+            transition: var(--transition);
+        }
+
+        .welcome-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(76, 201, 240, 0.4);
+        }
+
+        .welcome-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .dashboard-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+            transition: var(--transition);
+        }
+
+        .dashboard-card:hover .dashboard-card-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .dashboard-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .dashboard-card .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .dashboard-card .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        .dashboard-card .btn i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin: 30px 0;
+        }
+
+        .stats-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .main-content-expanded {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .welcome-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .welcome-image {
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                padding: 0 15px;
+            }
+
+            .header-right {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                padding: 0 10px;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .welcome-text h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .dark-mode-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .dark-mode-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .dark-mode-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .dark-mode-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .dark-mode-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .header {
+            background: #1e1e1e;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .sidebar {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        body.dark-mode .main-content {
+            background: transparent;
+        }
+
+        body.dark-mode .welcome-card,
+        body.dark-mode .dashboard-card,
+        body.dark-mode .stat-card {
+            background: #2d2d2d;
+            color: #f0f0f0;
+            border-color: #444;
+        }
+
+        body.dark-mode .welcome-text p,
+        body.dark-mode .dashboard-card p,
+        body.dark-mode .stat-label {
+            color: #bbb;
+        }
+
+        body.dark-mode .footer {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-thumb {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">
+                <i class="material-icons">school</i>
+                <span>Smart Classroom</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="dark-mode-toggle tooltip">
+                <input type="checkbox" id="darkModeToggle">
+                <label for="darkModeToggle" class="dark-mode-slider"></label>
+                <span class="tooltiptext">Toggle Dark Mode</span>
+            </div>
+            <div class="header-btn tooltip" title="Home">
+                <i class="material-icons">home</i>
+                <span class="tooltiptext">Home</span>
+            </div>
+            
+            <div class="header-btn tooltip" title="Profile">
+               <i class="material-icons">account_circle</i>
+               <span class="tooltiptext">Profile</span>
+            </div>
+            <div class="header-btn tooltip" title="Logout">
+                <i class="material-icons">logout</i>
+                <span class="tooltiptext">Logout</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <h2>Teacher Panel</h2>
+        <a href="#" class="sidebar-item active">
+            <i class="material-icons">dashboard</i>
+            <span class="sidebar-item-text">Dashboard</span>
+        </a>
+        <a href="/teacher-classrooms" class="sidebar-item">
+            <i class="material-icons">class</i>
+            <span class="sidebar-item-text">Classrooms</span>
+        </a>
+        <a href="/teacher-classrooms-manage" class="sidebar-item">
+            <i class="material-icons">book</i>
+            <span class="sidebar-item-text">Subjects</span>
+        </a>
+        <a href="/create-quiz" class="sidebar-item">
+            <i class="material-icons">quiz</i>
+            <span class="sidebar-item-text">Quizzes</span>
+        </a>
+        <a href="/classrooms" class="sidebar-item">
+            <i class="material-icons">assessment</i>
+            <span class="sidebar-item-text">Progress</span>
+        </a>
+        <a href="student_feedback.html" class="sidebar-item">
+            <i class="material-icons">feedback</i>
+            <span class="sidebar-item-text">Feedback</span>
+        </a>
+        <a href="/" class="sidebar-item">
+            <i class="material-icons">logout</i>
+            <span class="sidebar-item-text">Logout</span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Card -->
+        <div class="welcome-card animate__animated animate__fadeIn" data-aos="fade-up">
+            <div class="welcome-text">
+                <h1>Welcome, {{ teacher.name }}!</h1>
+                <p>Here's what's happening in your classrooms today. You have 3 active classes and 5 pending assignments to review.</p>
+                </a>
+            </div>
+            <div class="welcome-image">
+                <img src="https://ui-avatars.com/api/?name={{ teacher.name }}&background=random&size=200&color=fff" alt="Teacher Avatar">
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="150">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">class</i>
+                </div>
+                <h3>Create Classroom</h3>
+                <p>Start a new classroom, set up subjects, and invite students to join your learning environment.</p>
+                <a href="/teacher-classrooms" class="btn">
+                    <i class="material-icons">arrow_forward</i> Create
+                </a>
+            </div>
+
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">book</i>
+                </div>
+                <h3>Manage Subjects</h3>
+                <p>Add or edit subjects in your classroom, upload materials, and organize your curriculum.</p>
+                <a href="/teacher-classrooms-manage" class="btn">
+                    <i class="material-icons">arrow_forward</i> Manage
+                </a>
+            </div>
+
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="250">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">quiz</i>
+                </div>
+                <h3>Create Quiz</h3>
+                <p>Design interactive quizzes with multiple question types to assess student understanding.</p>
+                <a href="/create-quiz" class="btn">
+                    <i class="material-icons">arrow_forward</i> Create
+                </a>
+            </div>
+
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">assessment</i>
+                </div>
+                <h3>View Student Progress</h3>
+                <p>Monitor student performance with detailed analytics and track class-wide trends.</p>
+                <a href="/classrooms" class="btn">
+                    <i class="material-icons">arrow_forward</i> View
+                </a>
+            </div>
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="350">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">how_to_reg</i>
+                </div>
+                <h3>Take Attendance</h3>
+                <p>Mark student presence for today's class and manage attendance records.</p>
+                <a href="/classrooms-for-attendance" class="btn">
+                    <i class="material-icons">arrow_forward</i> Start
+                </a>
+            </div>
+            <div class="dashboard-card" data-aos="fade-up" data-aos-delay="350">
+                <div class="dashboard-card-icon">
+                    <i class="material-icons">feedback</i>
+                </div>
+                <h3>Review Feedback</h3>
+                <p>Read student feedback to improve your teaching methods and classroom experience.</p>
+                <a href="/teacher-feedback" class="btn">
+                    <i class="material-icons">arrow_forward</i> View
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" data-aos="fade-up">
+            <p>&copy; 2025 Smart Classroom | All Rights Reserved</p>
+        </footer>
+    </main>
+
+    <!-- AOS (Animate On Scroll) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Toggle sidebar
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // For desktop - toggle between expanded and collapsed
+            if (window.innerWidth > 992) {
+                sidebar.classList.toggle('sidebar-collapsed');
+                mainContent.classList.toggle('main-content-expanded');
+            }
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(e.target) && 
+                !menuToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                menuToggle.classList.remove('active');
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Header button interactions
+        const headerButtons = document.querySelectorAll('.header-btn');
+        headerButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Add pulse animation on click
+                this.classList.add('animate__animated', 'animate__pulse');
+                
+                // Remove animation after it completes
+                setTimeout(() => {
+                    this.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
+                
+                // Handle specific button actions
+                if (this.querySelector('.material-icons').textContent === 'logout') {
+                    // Logout logic here
+                    console.log('Logout clicked');
+                    window.location.href = '/';
+                } else if (this.querySelector('.material-icons').textContent === 'account_circle') {
+                    // Profile logic here
+                    console.log('Profile clicked');
+                    window.location.href = '/teacher-profile/{{ teacher.teacher_id }}';
+                } else if (this.querySelector('.material-icons').textContent === 'home') {
+                    // Home logic here
+                    console.log('Home clicked');
+                    window.location.href = '/teacher-dashboard';
+                } else if (this.querySelector('.material-icons').textContent === 'notifications') {
+                    // Notifications logic here
+                    console.log('Notifications clicked');
+                    // You could show a notifications dropdown here
+                }
+            });
+        });
+
+        // Add hover effect to dashboard cards
+        const dashboardCards = document.querySelectorAll('.dashboard-card');
+        dashboardCards.forEach((card, index) => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('animate__animated', 'animate__pulse');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('animate__animated', 'animate__pulse');
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode', this.checked);
+            // Save user preference in localStorage
+            localStorage.setItem('darkMode', this.checked);
+        });
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        // Responsive adjustments
+        function handleResize() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        // Initialize tooltips
+        const tooltips = document.querySelectorAll('.tooltip');
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', function() {
+                const tooltiptext = this.querySelector('.tooltiptext');
+                tooltiptext.style.visibility = 'visible';
+                tooltiptext.style.opacity = '1';
+            });
+            
+            tooltip.addEventListener('mouseleave', function() {
+                const tooltiptext = this.querySelector('.tooltiptext');
+                tooltiptext.style.visibility = 'hidden';
+                tooltiptext.style.opacity = '0';
+            });
+        });
+    </script>
+</body>
+</html>

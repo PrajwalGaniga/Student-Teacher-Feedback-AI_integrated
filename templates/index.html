@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Progress Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #333;
+            position: relative;
+        }
+
+        h1::before {
+            content: "📘 ";
+            color: #007bff;
+        }
+
+        h1::after {
+            content: " 🎓";
+            color: #007bff;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: white;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn:focus {
+            outline: 2px solid #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Academic Progress Tracker</h1>
+        <a href="/teacher-dashboard" class="btn">Teacher Portal</a>
+        <a href="/student-dashboard" class="btn">Student Portal</a>
+    </div>
+</body>
+</html>
