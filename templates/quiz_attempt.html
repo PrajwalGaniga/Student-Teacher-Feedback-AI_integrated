@@ -451,7 +451,7 @@
                 const result = await response.json();
                 if (response.ok) {
                     alert(`Quiz submitted successfully! Your score: ${result.score.toFixed(1)}%`);
-                    // Optionally redirect or reset the quiz
+                    window.location.href = '/student_report';
                 } else {
                     alert('Failed to submit quiz.');
                     submitBtn.innerHTML = '<i class="material-icons" style="margin-right:8px;">send</i>Submit Quiz';

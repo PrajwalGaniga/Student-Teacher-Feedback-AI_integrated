@@ -489,10 +489,56 @@
 
         @media (max-width: 768px) {
             .quiz-form-container {
-                width: 90%;
-                padding: 25px;
+                padding: 20px 15px;
+                width: 95%;
+                margin: 0 auto;
+            }
+            
+            /* Make form elements stack properly */
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            /* Adjust question containers */
+            .question-container {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            /* Fix options grid layout for mobile */
+            .options-grid {
+                grid-template-columns: 1fr 40px;
+                gap: 8px;
+            }
+            
+            .option-container {
+                padding: 10px;
+            }
+            
+            .option-input {
+                width: 100%;
+                min-width: 0; /* Allow input to shrink */
+            }
+            
+            /* Adjust buttons for mobile */
+            .btn {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+            
+            /* Ensure question inputs don't overflow */
+            .question-input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            /* Make sure icons are properly sized */
+            .option-icon {
+                font-size: 1.1rem;
+                min-width: 24px;
             }
         }
+        
 
         @media (max-width: 576px) {
             .header {
@@ -570,6 +616,76 @@
 
         body.dark-mode ::-webkit-scrollbar-thumb {
             background: #555;
+        }
+        @media (max-width: 480px) {
+            /* Further adjustments for very small screens */
+            .quiz-form-container {
+                padding: 15px 10px;
+            }
+            
+            .question-container h3 {
+                font-size: 1.1rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr 35px;
+            }
+            
+            .option-container {
+                padding: 8px 10px;
+            }
+            
+            .option-input {
+                font-size: 0.9rem;
+                padding: 5px;
+            }
+            
+            /* Adjust header for mobile */
+            .header {
+                padding: 0 10px;
+            }
+            
+            .header-btn {
+                width: 35px;
+                height: 35px;
+            }
+            
+            /* Hide logo text on very small screens */
+            .logo span {
+                display: none;
+            }
+            
+            /* Make sure select dropdowns are readable */
+            select.form-control {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+        
+        /* Ensure the correct option marking works on mobile */
+        .option-icon.correct {
+            color: var(--success) !important;
+        }
+        
+        /* Prevent horizontal scrolling */
+        body {
+            overflow-x: hidden;
+        }
+        
+        /* Make sure text inputs don't zoom on focus */
+        @media (max-width: 480px) {
+            input[type="text"],
+            textarea {
+                font-size: 16px;
+            }
+        }
+        
+        /* Fix for iOS input zoom */
+        @supports (-webkit-touch-callout: none) {
+            input[type="text"],
+            textarea {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
