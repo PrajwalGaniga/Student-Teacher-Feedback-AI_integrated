@@ -26,8 +26,8 @@ app.add_middleware(
     SessionMiddleware, 
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
-
-mongo_client = MongoClient(os.getenv("MONGODB_URI"))
+MONGODB_URI = os.getenv("MONGODB_URI")  # Default for local dev
+mongo_client = MongoClient(MONGODB_URI)
 db = mongo_client[os.getenv("DATABASE_NAME", "school_db")]
 
 classrooms_collection = db["classrooms"]
