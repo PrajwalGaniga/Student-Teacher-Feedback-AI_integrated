@@ -93,6 +93,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def generate_student_id():
     return "STU" + str(uuid.uuid4().int)[:6]
 
+@app.get("/about-us")
+async def student_login_page(request: Request):
+    return templates.TemplateResponse("About_us.html", {"request": request})
+
 @app.get("/student-login")
 async def student_login_page(request: Request):
     return templates.TemplateResponse("student_login.html", {"request": request})
