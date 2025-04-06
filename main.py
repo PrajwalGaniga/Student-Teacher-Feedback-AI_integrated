@@ -30,11 +30,22 @@ app.add_middleware(
 )
 mongo_client = MongoClient(
     os.getenv("MONGODB_URI"),
+    tls=True,
+    tlsAllowInvalidCertificates=False,  # Keep this False for production
     tlsCAFile=certifi.where(),
-    connectTimeoutMS=10000,
-    socketTimeoutMS=30000
+    connectTimeoutMS=30000,
+    socketTimeoutMS=30000,
+    serverSelectionTimeoutMS=30000,
+    retryWrites=True,
+    appName="StudentFeedbackApp"
 )
-
+@app.get("/db-check")
+async def db_check():
+    try:
+        db.command('ping')
+        return {"status": "success", "collections": db.list_collection_names()}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}
 # Access database
 db = mongo_client.school_db
 
