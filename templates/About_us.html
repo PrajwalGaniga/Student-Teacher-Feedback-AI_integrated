@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Classroom</title>
+    <title>About Us | Smart Classroom</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Fredoka+One&family=Baloo+2:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- Animate.css -->
@@ -46,15 +46,15 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             overflow-x: hidden;
             position: relative;
             color: white;
+            padding-bottom: 100px;
         }
         
-        /* Floating educational elements - enhanced */
+        /* Floating educational elements */
         .floating-elements {
             position: absolute;
             width: 100%;
@@ -92,8 +92,8 @@
         
         .logo-container {
             position: relative;
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             margin: 0 auto;
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -110,16 +110,10 @@
             height: 100%;
         }
         
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
         .app-name {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            margin-top: 30px;
+            margin-top: 20px;
             font-family: 'Fredoka One', 'Playfair Display', cursive;
             background: linear-gradient(45deg, var(--gold-primary), var(--gold-secondary), var(--gold-dark), var(--gold-secondary), var(--gold-primary));
             -webkit-background-clip: text;
@@ -138,77 +132,21 @@
             line-height: 1.1;
         }
         
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         @keyframes glow {
-            from { text-shadow: 0 0 0px rgba(255, 217, 0, 0.916), 0 0 10px rgba(255, 217, 0, 0.474); }
-            to { text-shadow: 0 0 15px rgba(255, 217, 0, 0.794), 0 0 25px rgba(255, 217, 0, 0.675), 0 0 35px rgba(255, 215, 0, 0.2); }
+            from { text-shadow: 0 0 5px rgba(255, 215, 0, 0.3), 0 0 10px rgba(255, 215, 0, 0.2); }
+            to { text-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.3), 0 0 35px rgba(255, 215, 0, 0.2); }
         }
         
-        .app-name::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
-            border-radius: 50%;
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: underline 2s 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-            box-shadow: 0 0 10px var(--gold-primary);
-        }
-        
-        @keyframes underline {
-            to { transform: scaleX(1); }
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            margin-top: 25px;
-            opacity: 0;
-            animation: fadeIn 1.5s 2s forwards;
-            font-weight: 300;
-            letter-spacing: 1.5px;
-            max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            color: var(--text-light);
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        
-        .hidden {
-            display: none;
-            opacity: 0;
-        }
-        
-        .portal-container {
-            width: 90%;
-            max-width: 900px;
-            margin: 0 auto;
-            perspective: 1000px;
-        }
-        
-        .portal-header {
-            text-align: center;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(30px) rotateX(15deg);
-            transition: all 1s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .portal-header.visible {
-            opacity: 1;
-            transform: translateY(0) rotateX(0);
-        }
-        
-        .portal-title {
-            font-size: 3rem;
+        .section-title {
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 25px;
+            margin: 50px 0 30px;
             font-family: 'Playfair Display', serif;
             background: linear-gradient(to right, var(--gold-primary), var(--gold-secondary));
             -webkit-background-clip: text;
@@ -219,7 +157,7 @@
             padding-bottom: 15px;
         }
         
-        .portal-title::after {
+        .section-title::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -231,189 +169,18 @@
             border-radius: 3px;
         }
         
-        .portal-thought {
-            font-size: 1.3rem;
-            font-style: italic;
-            opacity: 0;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.8;
-            position: relative;
-            padding: 20px 30px;
-            color: var(--text-light);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.95);
-            transition: all 1s 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .portal-header.visible .portal-thought {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .portal-thought::before,
-        .portal-thought::after {
-            content: '"';
-            font-size: 3rem;
-            color: var(--gold-primary);
-            position: absolute;
-            opacity: 0.5;
-            font-family: 'Times New Roman', serif;
-        }
-        
-        .portal-thought::before {
-            top: 0;
-            left: 10px;
-        }
-        
-        .portal-thought::after {
-            bottom: -30px;
-            right: 10px;
-        }
-        
-        .portal-options {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background: rgba(15, 15, 35, 0.6);
-            padding: 40px 50px;
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 25px 60px rgba(8, 20, 60, 0.4);
-            transform: translateY(40px) rotateY(10deg);
-            margin-top: 30px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .portal-options::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .portal-options.visible {
-            opacity: 1;
-            transform: translateY(0) rotateY(0);
-        }
-        
-        .portal-options a {
-            text-decoration: none;
-            padding: 20px 40px;
-            border-radius: 50px;
-            background: linear-gradient(45deg, var(--blue-primary), var(--blue-dark));
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(0, 50, 150, 0.3);
-            border: none;
-            z-index: 1;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
-        .portal-options a.about-us-btn {
-            background: linear-gradient(45deg, #4CAF50, #2E7D32);
-        }
-        
-        .portal-options a.about-us-btn::before {
-            background: linear-gradient(45deg, #2E7D32, #4CAF50);
-        }
-        
-        .portal-options a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--blue-dark), var(--blue-primary));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-        
-        .portal-options a:hover::before {
-            opacity: 1;
-        }
-        
-        .portal-options a i {
-            margin-right: 15px;
-            font-size: 1.8rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .portal-options a:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 80, 200, 0.4);
-        }
-        
-        .portal-options a:hover i {
-            transform: scale(1.2);
-        }
-        
-        .portal-options a::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.6s;
-        }
-        
-        .portal-options a:hover::after {
-            left: 100%;
-        }
-        
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        /* Features Grid - Enhanced (Fixed display issue) */
-        .features-grid {
+        /* Team Section */
+        .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 50px;
-            opacity: 1;
-            transform: none;
-            transition: none;
+            gap: 30px;
+            margin-top: 40px;
         }
         
-        .feature-card {
+        .team-member {
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 25px 20px;
+            border-radius: 20px;
+            padding: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -421,77 +188,183 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            opacity: 1;
-            transform: none;
+            text-align: center;
         }
         
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px) scale(1.03);
+        .team-member:hover {
+            transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             border-color: rgba(255, 215, 0, 0.2);
         }
         
-        .feature-card:hover::before {
-            opacity: 1;
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 215, 0, 0.3);
+            margin: 0 auto 20px;
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--gold-primary);
-            transition: transform 0.3s ease;
+        .team-member:hover .member-photo {
+            transform: scale(1.05);
+            border-color: var(--gold-primary);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
         }
         
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        .feature-title {
+        .member-name {
+            font-size: 1.5rem;
             font-weight: 700;
-            font-size: 1.1rem;
             margin-bottom: 10px;
             color: white;
             position: relative;
             display: inline-block;
         }
         
-        .feature-title::after {
+        .member-name::after {
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 40px;
             height: 2px;
             background: var(--gold-primary);
             transition: width 0.3s ease;
         }
         
-        .feature-card:hover .feature-title::after {
+        .team-member:hover .member-name::after {
             width: 60px;
         }
         
-        .feature-desc {
+        .member-role {
+            font-size: 1rem;
+            color: var(--gold-primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .member-bio {
             font-size: 0.9rem;
             opacity: 0.8;
             line-height: 1.6;
             color: var(--text-lighter);
+            margin-bottom: 20px;
         }
         
-        /* Back button - Enhanced */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--gold-primary);
+            color: #0f0c29;
+            transform: translateY(-3px);
+        }
+        
+        /* Features Tables */
+        .features-container {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .portal-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--gold-primary);
+            text-align: center;
+        }
+        
+        .feature-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-table th {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 15px;
+            text-align: left;
+            font-size: 1.2rem;
+            color: var(--gold-primary);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .feature-table td {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: middle;
+        }
+        
+        .feature-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .feature-table tr:hover td {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--gold-primary);
+            vertical-align: middle;
+        }
+        
+        /* Contact Section */
+        .contact-info {
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .contact-info p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .contact-email {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .contact-email:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 80, 200, 0.4);
+        }
+        
+        /* Back button */
         .back-btn {
             position: fixed;
             top: 30px;
@@ -508,16 +381,9 @@
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 100;
-            opacity: 0;
-            visibility: hidden;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .back-btn.visible {
-            opacity: 1;
-            visibility: visible;
         }
         
         .back-btn:hover {
@@ -527,124 +393,37 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
-        .back-btn i {
-            transition: transform 0.3s ease;
-        }
-        
-        .back-btn:hover i {
-            transform: translateX(-3px);
-        }
-        
-        /* Paper animation for About Us */
-        .flying-paper {
-            position: fixed;
-            width: 200px;
-            height: 300px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            transform: translate(-50%, -50%) rotate(0deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .flying-paper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: #f5f5f5;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .flying-paper::after {
-            content: 'About Us';
-            position: absolute;
-            top: 10px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .paper-content {
-            padding: 50px 20px 20px;
-            color: #333;
-            font-size: 14px;
-            text-align: center;
-        }
-        
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .app-name {
-                font-size: 3.5rem;
+                font-size: 3rem;
             }
             
-            .portal-title {
-                font-size: 2.5rem;
+            .section-title {
+                font-size: 2.2rem;
             }
             
-            .portal-thought {
-                font-size: 1.1rem;
-                padding: 15px 25px;
-            }
-            
-            .portal-options a {
-                padding: 18px 35px;
-                font-size: 1.2rem;
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
         }
         
         @media (max-width: 768px) {
             .app-name {
-                font-size: 2.8rem;
-                display: flex;
-                flex-direction: column;
-                line-height: 1.2;
+                font-size: 2.5rem;
             }
             
-            .app-name span {
-                display: block;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-                max-width: 90%;
-            }
-            
-            .portal-title {
+            .section-title {
                 font-size: 2rem;
             }
             
-            .portal-thought {
-                font-size: 1rem;
-                padding: 15px 20px;
-            }
-            
-            .portal-options {
+            .features-container {
                 padding: 30px;
             }
             
-            .portal-options a {
-                font-size: 1.1rem;
-                padding: 15px 25px;
-            }
-            
-            .logo-container {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .feature-table th, 
+            .feature-table td {
+                padding: 12px;
             }
             
             .back-btn {
@@ -657,55 +436,28 @@
         
         @media (max-width: 576px) {
             .app-name {
-                font-size: 2.2rem;
-            }
-            
-            .tagline {
-                font-size: 0.95rem;
-            }
-            
-            .portal-title {
-                font-size: 1.8rem;
-            }
-            
-            .portal-thought {
-                font-size: 0.9rem;
-                padding: 12px 15px;
-            }
-            
-            .portal-options {
-                padding: 20px 15px;
-            }
-            
-            .portal-options a {
-                font-size: 1rem;
-                padding: 12px 20px;
-            }
-            
-            .logo-container {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .feature-card {
-                padding: 20px 15px;
-            }
-            
-            .feature-icon {
                 font-size: 2rem;
             }
             
-            .feature-title {
-                font-size: 1rem;
+            .section-title {
+                font-size: 1.8rem;
             }
             
-            .feature-desc {
-                font-size: 0.85rem;
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-container {
+                padding: 20px 15px;
+            }
+            
+            .feature-table {
+                font-size: 0.9rem;
+            }
+            
+            .feature-icon {
+                font-size: 1.2rem;
+                margin-right: 10px;
             }
             
             .back-btn {
@@ -715,88 +467,13 @@
                 left: 15px;
             }
         }
-        
-        /* Special animations for the app name letters */
-        .char {
-            display: inline-block;
-            position: relative;
-        }
-        
-        /* Confetti effect */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--gold-primary);
-            opacity: 0;
-            z-index: 100;
-            pointer-events: none;
-        }
-        
-        /* Floating cursor follower */
-        .cursor-follower {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 215, 0, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: screen;
-            transition: transform 0.1s ease;
-        }
-        
-        /* Ripple effect for buttons */
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-        
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-        
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            opacity: 0.7;
-            font-size: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 20;
-            animation: bounce 2s infinite;
-        }
-        
-        .scroll-indicator i {
-            margin-top: 5px;
-            font-size: 1.2rem;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-            40% { transform: translateY(-10px) translateX(-50%); }
-            60% { transform: translateY(-5px) translateX(-50%); }
-        }
     </style>
 </head>
 <body>
     <!-- Particles background -->
     <div id="particles-js"></div>
     
-    <!-- Floating educational elements - enhanced with more variety -->
+    <!-- Floating educational elements -->
     <div class="floating-elements">
         <i class="floating-element fas fa-book" style="font-size: 40px; top: 10%; left: 15%; animation-duration: 18s;"></i>
         <i class="floating-element fas fa-pencil-alt" style="font-size: 35px; top: 25%; left: 80%; animation-duration: 22s; animation-delay: 3s;"></i>
@@ -808,89 +485,156 @@
         <i class="floating-element fas fa-microscope" style="font-size: 55px; top: 65%; left: 70%; animation-duration: 24s; animation-delay: 4s;"></i>
         <i class="floating-element fas fa-graduation-cap" style="font-size: 50px; top: 40%; left: 10%; animation-duration: 21s; animation-delay: 3s;"></i>
         <i class="floating-element fas fa-brain" style="font-size: 40px; top: 75%; left: 85%; animation-duration: 23s; animation-delay: 1s;"></i>
-        <i class="floating-element fas fa-chart-bar" style="font-size: 35px; top: 20%; left: 30%; animation-duration: 20s; animation-delay: 5s;"></i>
-        <i class="floating-element fas fa-paint-brush" style="font-size: 30px; top: 60%; left: 40%; animation-duration: 18s; animation-delay: 2s;"></i>
     </div>
     
-    <!-- Cursor follower -->
-    <div class="cursor-follower"></div>
-    
-    <!-- Back button (hidden initially) -->
-    <button class="back-btn hidden" id="backBtn">
+    <!-- Back button -->
+    <a href="index.html" class="back-btn">
         <i class="fas fa-arrow-left"></i>
-    </button>
+    </a>
     
-    <div class="container" id="intro">
+    <div class="container">
         <div class="logo-container">
             <div id="lottie-logo"></div>
         </div>
         
-        <h1 class="app-name" data-splitting>SMART CLASSROOM</h1>
-        <p class="tagline">Where Learning Meets Innovation</p>
+        <h1 class="app-name" data-splitting>ABOUT US</h1>
         
-        <div class="scroll-indicator animate__animated animate__fadeInUp animate__delay-2s">
-           
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </div>
-    
-    <div class="portal-container hidden" id="options">
-        <div class="portal-header" id="portal-header">
-            <h2 class="portal-title">Welcome to Smart Classroom</h2>
-            <p class="portal-thought">Education is the most powerful weapon which you can use to change the world. Let's embark on this journey of knowledge together.</p>
-        </div>
-        <div class="portal-options">
-            <a href="/student-login" class="hvr-float-shadow" data-aos="fade-up" data-aos-delay="300">
-                <i class="fas fa-user-graduate"></i>
-                Student Portal
-            </a>
-            <a href="/teacher-login" class="hvr-float-shadow" data-aos="fade-up" data-aos-delay="500">
-                <i class="fas fa-chalkboard-teacher"></i>
-                Teacher Portal
-            </a>
-            <a href="/about-us" class="hvr-float-shadow about-us-btn" data-aos="fade-up" data-aos-delay="700">
-                <i class="fas fa-info-circle"></i>
-                About Us
-            </a>
+        <!-- Team Section -->
+        <h2 class="section-title" data-aos="fade-up">Meet Our Team</h2>
+        
+        <div class="team-grid">
+            <!-- Team Member 1 -->
+            <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+                <img src="profile1.jpg" alt="Prajwal" class="member-photo">
+                <h3 class="member-name">Prajwal</h3>
+                <p class="member-role">Lead Developer</p>
+                <p class="member-bio">Tech enthusiast with 5+ years of experience in full-stack development. Passionate about creating seamless educational experiences through innovative technology solutions.</p>
+                <div class="social-links">
+                    <a href="#" class="hvr-float"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
             
-            <div class="features-grid" id="featuresGrid">
-                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="feature-icon">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                    <div class="feature-title">Interactive Lessons</div>
-                    <div class="feature-desc">Engaging multimedia content with animations and simulations</div>
+            <!-- Team Member 2 -->
+            <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                <img src="profile2.jpg" alt="Ishwarya" class="member-photo">
+                <h3 class="member-name">Ishwarya</h3>
+                <p class="member-role">UI/UX Designer</p>
+                <p class="member-bio">Creative designer specializing in educational interfaces. Believes that beautiful, intuitive design can transform the learning experience for students and teachers alike.</p>
+                <div class="social-links">
+                    <a href="#" class="hvr-float"><i class="fab fa-dribbble"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-behance"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-instagram"></i></a>
                 </div>
-                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="feature-title">Progress Tracking</div>
-                    <div class="feature-desc">Real-time analytics and performance monitoring</div>
+            </div>
+            
+            <!-- Team Member 3 -->
+            <div class="team-member" data-aos="fade-up" data-aos-delay="300">
+                <img src="profile3.jpg" alt="Ujwal Bangera" class="member-photo">
+                <h3 class="member-name">Ujwal Bangera</h3>
+                <p class="member-role">Backend Architect</p>
+                <p class="member-bio">Database wizard and system architect. Focused on building robust, scalable backend systems that can handle thousands of concurrent classroom sessions.</p>
+                <div class="social-links">
+                    <a href="#" class="hvr-float"><i class="fab fa-stack-overflow"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-github"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-medium"></i></a>
                 </div>
-                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <div class="feature-title">Collaboration</div>
-                    <div class="feature-desc">Discussion forums and group projects</div>
+            </div>
+            
+            <!-- Team Member 4 -->
+            <div class="team-member" data-aos="fade-up" data-aos-delay="400">
+                <img src="profile4.jpg" alt="Nishan" class="member-photo">
+                <h3 class="member-name">Nishan</h3>
+                <p class="member-role">Educational Specialist</p>
+                <p class="member-bio">Former teacher turned edtech consultant. Ensures our platform meets real classroom needs and aligns with modern pedagogical approaches.</p>
+                <div class="social-links">
+                    <a href="#" class="hvr-float"><i class="fas fa-book"></i></a>
+                    <a href="#" class="hvr-float"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hvr-float"><i class="fas fa-graduation-cap"></i></a>
                 </div>
-                <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="feature-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <div class="feature-title">Assignments</div>
-                    <div class="feature-desc">Digital submission with automatic grading</div>
-                </div>
-               
             </div>
         </div>
-    </div>
-    
-    <!-- Flying paper for About Us animation -->
-    <div class="flying-paper" id="flyingPaper">
-        <div class="paper-content">
-            Taking you to our story...
+        
+        <!-- Features Section -->
+        <div class="features-container" data-aos="fade-up">
+            <h2 class="section-title">Our Platform Features</h2>
+            
+            <h3 class="portal-title">👨‍🏫 Teacher Portal</h3>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Features for Educators</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="feature-icon fas fa-school"></i></td>
+                        <td><strong>Classroom Management</strong> - Create and manage classrooms with unique join codes</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-question-circle"></i></td>
+                        <td><strong>Quiz System</strong> - Build quizzes with multiple question types</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-clipboard-check"></i></td>
+                        <td><strong>Attendance Tracker</strong> - Record attendance with percentage calculations</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-chart-bar"></i></td>
+                        <td><strong>Analytics Dashboard</strong> - View student progress reports</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-file-excel"></i></td>
+                        <td><strong>Excel Export</strong> - Download attendance data as spreadsheets</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-comment-alt"></i></td>
+                        <td><strong>Feedback System</strong> - Receive and analyze student feedback</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3 class="portal-title">👨‍🎓 Student Portal</h3>
+            <table class="feature-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Features for Learners</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="feature-icon fas fa-user-plus"></i></td>
+                        <td><strong>Join Classrooms</strong> - Enter class codes to enroll</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-edit"></i></td>
+                        <td><strong>Quiz Interface</strong> - Attempt quizzes with instant scoring</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-chart-line"></i></td>
+                        <td><strong>Progress Reports</strong> - View performance with AI-generated feedback</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-calendar-check"></i></td>
+                        <td><strong>Attendance Portal</strong> - Check participation history</td>
+                    </tr>
+                    <tr>
+                        <td><i class="feature-icon fas fa-comments"></i></td>
+                        <td><strong>Feedback Submission</strong> - Rate and review teachers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Contact Section -->
+        <div class="contact-info" data-aos="fade-up">
+            <h2 class="section-title">Get In Touch</h2>
+            <p>We're always looking to improve our platform and welcome feedback from educators and students alike.</p>
+            <p>Whether you have questions, suggestions, or would like to collaborate, we'd love to hear from you.</p>
+            <a href="mailto:contact@smartclassroom.edu" class="contact-email hvr-float">
+                <i class="fas fa-envelope"></i> contact@smartclassroom.edu
+            </a>
         </div>
     </div>
     
@@ -909,7 +653,7 @@
         // Initialize Splitting.js for text animations
         Splitting();
         
-        // Lottie animation for logo - more modern animation
+        // Lottie animation for logo
         const logoAnimation = lottie.loadAnimation({
             container: document.getElementById('lottie-logo'),
             renderer: 'svg',
@@ -918,7 +662,7 @@
             path: 'https://assets5.lottiefiles.com/packages/lf20_vybwn7df.json'
         });
         
-        // Enhanced particles.js configuration
+        // Particles.js configuration
         particlesJS("particles-js", {
             "particles": {
                 "number": {
@@ -936,9 +680,6 @@
                     "stroke": {
                         "width": 0,
                         "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
                     }
                 },
                 "opacity": {
@@ -1025,211 +766,36 @@
             "retina_detect": true
         });
         
-        // Cursor follower effect
-        const cursorFollower = document.querySelector('.cursor-follower');
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursorFollower, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.5,
-                ease: "power2.out"
-            });
-        });
-        
-        // Animation sequence with GSAP for smoother transitions
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate the app name letters individually with GSAP
-            gsap.from(".char", {
-                y: 50,
-                opacity: 0,
-                rotation: 10,
-                duration: 1,
-                ease: "back.out(1.7)",
-                stagger: 0.05,
-                delay: 0.5
-            });
-            
-            // Click handler for the intro section
-            document.getElementById("intro").addEventListener("click", function() {
-                // Create confetti effect
-                createConfetti();
-                
-                // Animate out the intro with GSAP
-                gsap.to(this, {
-                    opacity: 0,
-                    y: -50,
-                    duration: 0.8,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        this.style.display = "none";
-                        const options = document.getElementById("options");
-                        options.classList.remove("hidden");
-                        
-                        // Show back button
-                        document.getElementById("backBtn").classList.add("visible");
-                        
-                        // Animate in the portal with GSAP
-                        gsap.fromTo(options, 
-                            { opacity: 0, y: 50 },
-                            { opacity: 1, y: 0, duration: 1, ease: "elastic.out(1, 0.5)" }
-                        );
-                        
-                        // Animate the header
-                        document.getElementById("portal-header").classList.add("visible");
-                        
-                        // Animate the options
-                        document.querySelector(".portal-options").classList.add("visible");
-                    }
+        // Add hover effect to team members
+        document.querySelectorAll('.team-member').forEach(member => {
+            member.addEventListener('mouseenter', () => {
+                gsap.to(member.querySelector('.member-photo'), {
+                    scale: 1.05,
+                    borderColor: 'rgba(255, 215, 0, 0.7)',
+                    duration: 0.3
                 });
             });
             
-            // Back button functionality
-            document.getElementById("backBtn").addEventListener("click", function() {
-                // Create confetti effect
-                createConfetti();
-                
-                const options = document.getElementById("options");
-                gsap.to(options, {
-                    opacity: 0,
-                    y: 50,
-                    duration: 0.8,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        options.style.display = "none";
-                        options.classList.add("hidden");
-                        
-                        const intro = document.getElementById("intro");
-                        intro.style.display = "block";
-                        
-                        // Animate in the intro with GSAP
-                        gsap.fromTo(intro, 
-                            { opacity: 0, y: -50 },
-                            { opacity: 1, y: 0, duration: 1, ease: "elastic.out(1, 0.5)" }
-                        );
-                        
-                        this.classList.remove("visible");
-                    }
-                });
-            });
-            
-            // Scroll trigger for the intro section
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50 && document.getElementById("intro").style.display !== "none") {
-                    document.getElementById("intro").click();
-                }
-            });
-            
-            // Add ripple effect to buttons with GSAP
-            document.querySelectorAll('.portal-options a').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Create ripple element
-                    const ripple = document.createElement('span');
-                    ripple.className = 'ripple';
-                    
-                    // Position the ripple
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    ripple.style.width = ripple.style.height = `${size}px`;
-                    ripple.style.left = `${e.clientX - rect.left - size/2}px`;
-                    ripple.style.top = `${e.clientY - rect.top - size/2}px`;
-                    
-                    this.appendChild(ripple);
-                    
-                    // Check if this is the About Us button
-                    if (this.getAttribute('href') === '/about-us') {
-                        // Show flying paper animation
-                        const paper = document.getElementById('flyingPaper');
-                        const buttonRect = this.getBoundingClientRect();
-                        
-                        // Position paper at button
-                        gsap.set(paper, {
-                            x: buttonRect.left + buttonRect.width/2,
-                            y: buttonRect.top + buttonRect.height/2,
-                            opacity: 1,
-                            scale: 0.2
-                        });
-                        
-                        // Animate paper
-                        gsap.to(paper, {
-                            x: window.innerWidth + 200,
-                            y: -200,
-                            rotation: 360,
-                            scale: 1,
-                            duration: 2,
-                            ease: "power2.in",
-                            onComplete: () => {
-                                // Navigate after animation completes
-                                window.location.href = this.getAttribute('href');
-                            }
-                        });
-                    } else {
-                        // Regular ripple animation for other buttons
-                        gsap.to(ripple, {
-                            scale: 4,
-                            opacity: 0,
-                            duration: 0.6,
-                            ease: "power2.out",
-                            onComplete: () => {
-                                ripple.remove();
-                                // Navigate after ripple effect
-                                window.location.href = this.getAttribute('href');
-                            }
-                        });
-                    }
+            member.addEventListener('mouseleave', () => {
+                gsap.to(member.querySelector('.member-photo'), {
+                    scale: 1,
+                    borderColor: 'rgba(255, 215, 0, 0.3)',
+                    duration: 0.3
                 });
             });
         });
         
-        // Confetti effect function
-        function createConfetti() {
-            const colors = ['#FFD700', '#FFC000', '#D4AF37', '#FFFFFF', '#2575fc'];
-            
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.top = -20 + 'px';
-                confetti.style.width = Math.random() * 10 + 5 + 'px';
-                confetti.style.height = Math.random() * 10 + 5 + 'px';
-                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                document.body.appendChild(confetti);
-                
-                const animationDuration = Math.random() * 3 + 2;
-                
-                gsap.to(confetti, {
-                    y: window.innerHeight + 20,
-                    x: (Math.random() - 0.5) * 200,
-                    rotation: Math.random() * 360,
-                    opacity: 1,
-                    duration: animationDuration,
-                    ease: "power1.out",
-                    onComplete: () => {
-                        confetti.remove();
-                    }
-                });
-                
-                // Random delay for each confetti
-                gsap.from(confetti, {
-                    opacity: 0,
-                    duration: 0.3,
-                    delay: Math.random() * 0.5
-                });
-            }
-        }
-        
-        // Auto-trigger animation after 8 seconds if no interaction
-        const autoTrigger = setTimeout(() => {
-            createConfetti();
-            document.getElementById("intro").click();
-        }, 8000);
-        
-        // Cancel auto-trigger if user interacts
-        document.addEventListener('click', () => {
-            clearTimeout(autoTrigger);
-        }, { once: true });
+        // Animate elements on scroll with GSAP
+        gsap.utils.toArray('[data-aos]').forEach(element => {
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 80%",
+                onEnter: () => {
+                    element.classList.add('aos-animate');
+                },
+                once: true
+            });
+        });
     </script>
 </body>
 </html>
