@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Lottie Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -26,7 +30,7 @@
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
         
@@ -66,25 +70,44 @@
             width: 150px;
             height: 150px;
             margin: 0 auto;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05) rotate(5deg);
         }
         
         #lottie-logo {
             width: 100%;
             height: 100%;
         }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         
         .app-name {
-            font-size: 3rem;
-            font-weight: 800;
+            font-size: 3.5rem; /* Increased font size */
+            font-weight: 900; /* Bolder font */
             margin-top: 20px;
             font-family: 'Fredoka One', cursive;
-            text-shadow: 3px 3px 15px rgba(242, 88, 50, 0.4);
-            background: linear-gradient(to right, #fff, #c9d6ff);
+            background: linear-gradient(45deg, #ffffff, #a7c4ff, #ffffff, #a7c4ff);
             -webkit-background-clip: text;
             background-clip: text;
-            -webkit-text-fill-color:burlywood;
+            background-size: 300% 300%;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3), /* Stronger shadow */
+                0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect */
             position: relative;
             display: inline-block;
+            letter-spacing: 1px; /* Slightly wider spacing */
+            padding: 0 10px;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+            line-height: 1.2;
         }
         
         .app-name::after {
@@ -112,6 +135,9 @@
             animation: fadeIn 1s 2s forwards;
             font-weight: 300;
             letter-spacing: 1px;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         @keyframes fadeIn {
@@ -256,6 +282,78 @@
             pointer-events: none;
         }
         
+        /* New Features */
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            animation: pulse 2s infinite;
+            display: none !important;
+            align-items: center;
+            z-index: 20;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+            100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+        }
+        
+        .click-hint i {
+            margin-right: 8px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s 0.6s;
+        }
+        
+        .features-grid.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .app-name {
@@ -263,26 +361,112 @@
             }
 
             .tagline {
-                font-size: 1rem;
+                font-size: 0.9rem;
+                max-width: 90%;
             }
             
             .portal-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .portal-thought {
-                font-size: 1rem;
+                font-size: 0.9rem;
                 padding: 0 15px;
             }
             
             .portal-options {
-                padding: 20px 25px;
+                padding: 20px 15px;
             }
             
             .portal-options a {
-                font-size: 1.1rem;
-                padding: 12px 25px;
+                font-size: 1rem;
+                padding: 12px 20px;
             }
+            
+            .logo-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .click-hint {
+                font-size: 0.8rem;
+                bottom: 15px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-name {
+                font-size: 2rem;
+            }
+            
+            .portal-title {
+                font-size: 1.5rem;
+            }
+            
+            .portal-options a {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+            
+            .portal-thought {
+                font-size: 0.8rem;
+            }
+            
+            .feature-card {
+                padding: 10px;
+            }
+            
+            .feature-icon {
+                font-size: 1.5rem;
+            }
+            
+            .feature-title {
+                font-size: 0.8rem;
+            }
+            
+            .feature-desc {
+                font-size: 0.7rem;
+            }
+            
+            .click-hint {
+                font-size: 0.7rem;
+                bottom: 10px;
+            }
+        }
+        
+        /* Back button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .back-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -298,15 +482,26 @@
         <i class="floating-element fas fa-flask" style="font-size: 40px; top: 50%; left: 75%; animation-delay: 1s;"></i>
         <i class="floating-element fas fa-calculator" style="font-size: 20px; top: 80%; left: 65%; animation-delay: 3s;"></i>
         <i class="floating-element fas fa-atom" style="font-size: 50px; top: 15%; left: 50%; animation-delay: 5s;"></i>
+        <i class="floating-element fas fa-laptop-code" style="font-size: 35px; top: 30%; left: 25%; animation-delay: 1.5s;"></i>
+        <i class="floating-element fas fa-microscope" style="font-size: 45px; top: 65%; left: 70%; animation-delay: 3.5s;"></i>
     </div>
+    
+    <!-- Back button (hidden initially) -->
+    <button class="back-btn hidden" id="backBtn">
+        <i class="fas fa-arrow-left"></i>
+    </button>
     
     <div class="container" id="intro">
         <div class="logo-container">
             <div id="lottie-logo"></div>
         </div>
         
-        <h1 class="app-name animate__animated animate__fadeInDown">SMART CLASSROOM!</h1>
+        <h1 class="app-name animate__animated animate__fadeInDown">SMART CLASSROOM</h1>
         <p class="tagline">Where Learning Meets Innovation</p>
+        
+        <div class="click-hint animate__animated animate__fadeInUp animate__delay-2s">
+            <i class="fas fa-hand-pointer"></i>
+        </div>
     </div>
     
     <div class="portal-container hidden" id="options">
@@ -315,20 +510,59 @@
             <p class="portal-thought">Education is the most powerful weapon which you can use to change the world. Let's embark on this journey of knowledge together.</p>
         </div>
         <div class="portal-options">
-            <a href="/student-login">
+            <a href="/student-login" data-aos="fade-up" data-aos-delay="300">
                 <i class="fas fa-user-graduate"></i>
                 Student Portal
             </a>
-            <a href="/teacher-login">
+            <a href="/teacher-login" data-aos="fade-up" data-aos-delay="500">
                 <i class="fas fa-chalkboard-teacher"></i>
                 Teacher Portal
             </a>
+            
+            <div class="features-grid" id="featuresGrid">
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="feature-title">Interactive Lessons</div>
+                    <div class="feature-desc">Engaging multimedia content</div>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="feature-title">Progress Tracking</div>
+                    <div class="feature-desc">Monitor your learning journey</div>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="feature-title">Collaboration</div>
+                    <div class="feature-desc">Connect with peers and teachers</div>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="feature-title">Assignments</div>
+                    <div class="feature-desc">Submit work digitally</div>
+                </div>
+            </div>
         </div>
     </div>
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Initialize AOS animation library
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-quad',
+            once: true
+        });
+        
         // Lottie animation for logo
         const logoAnimation = lottie.loadAnimation({
             container: document.getElementById('lottie-logo'),
@@ -479,6 +713,9 @@
                     const options = document.getElementById("options");
                     options.classList.remove("hidden");
                     
+                    // Show back button
+                    document.getElementById("backBtn").classList.add("visible");
+                    
                     // Animate the header first
                     const header = document.getElementById("portal-header");
                     setTimeout(() => {
@@ -489,10 +726,34 @@
                     setTimeout(() => {
                         document.querySelector(".portal-options").classList.add("visible");
                     }, 300);
+                    
+                    // Then animate the features grid
+                    setTimeout(() => {
+                        document.getElementById("featuresGrid").classList.add("visible");
+                    }, 600);
                 }, 800);
             });
             
-            // Auto-trigger animation after 3 seconds if no interaction
+            // Back button functionality
+            document.getElementById("backBtn").addEventListener("click", function() {
+                const options = document.getElementById("options");
+                options.classList.add("animate__animated", "animate__fadeOut");
+                
+                setTimeout(() => {
+                    options.style.display = "none";
+                    options.classList.remove("animate__fadeOut");
+                    options.classList.add("hidden");
+                    
+                    const intro = document.getElementById("intro");
+                    intro.style.display = "block";
+                    intro.classList.remove("animate__fadeOut");
+                    intro.classList.add("animate__fadeIn");
+                    
+                    this.classList.remove("visible");
+                }, 500);
+            });
+            
+            // Auto-trigger animation after 5 seconds if no interaction
             const autoTrigger = setTimeout(() => {
                 document.getElementById("intro").click();
             }, 5000);
@@ -501,6 +762,51 @@
             document.addEventListener('click', () => {
                 clearTimeout(autoTrigger);
             }, { once: true });
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.portal-options a').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Create ripple element
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.pointerEvents = 'none';
+                    
+                    // Position the ripple
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+                    ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                        // Navigate after ripple effect
+                        window.location.href = this.getAttribute('href');
+                    }, 600);
+                });
+            });
+            
+            // Add keyframe for ripple effect
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
         });
     </script>
 </body>
