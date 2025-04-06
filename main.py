@@ -31,14 +31,9 @@ app.add_middleware(
     SessionMiddleware, 
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-context.verify_mode = ssl.CERT_REQUIRED
-context.check_hostname = True
-
 mongo_client = MongoClient(
     "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
-    connectTimeoutMS=30000,
-    socketTimeoutMS=30000
+    connectTimeoutMS=30000
 )
 
 @app.get("/db-check")
