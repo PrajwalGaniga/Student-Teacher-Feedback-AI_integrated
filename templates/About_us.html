@@ -44,19 +44,19 @@
         }
         
         body {
-            display: flex;
-            justify-content: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             overflow-x: hidden;
-            position: relative;
             color: white;
             padding-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         /* Floating educational elements */
         .floating-elements {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             pointer-events: none;
@@ -88,6 +88,7 @@
             width: 90%;
             max-width: 1200px;
             padding: 20px;
+            margin: 0 auto;
         }
         
         .logo-container {
@@ -172,9 +173,10 @@
         /* Team Section */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
+            justify-items: center;
         }
         
         .team-member {
@@ -189,6 +191,8 @@
             overflow: hidden;
             z-index: 1;
             text-align: center;
+            width: 100%;
+            max-width: 300px;
         }
         
         .team-member:hover {
@@ -199,8 +203,8 @@
         }
         
         .member-photo {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid rgba(255, 215, 0, 0.3);
@@ -253,6 +257,7 @@
             line-height: 1.6;
             color: var(--text-lighter);
             margin-bottom: 20px;
+            min-height: 80px;
         }
         
         .social-links {
@@ -263,31 +268,34 @@
         
         .social-links a {
             color: white;
-            width: 35px;
-            height: 35px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
         
         .social-links a:hover {
             background: var(--gold-primary);
             color: #0f0c29;
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
         }
         
         /* Features Tables */
         .features-container {
-            margin-top: 50px;
+            margin: 50px auto 0;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             padding: 40px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 215, 0, 0.1);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            max-width: 1000px;
         }
         
         .portal-title {
@@ -307,7 +315,7 @@
         .feature-table th {
             background: rgba(255, 215, 0, 0.2);
             padding: 15px;
-            text-align: left;
+            text-align: center;
             font-size: 1.2rem;
             color: var(--gold-primary);
             border-radius: 10px 10px 0 0;
@@ -318,6 +326,7 @@
             background: rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             vertical-align: middle;
+            text-align: left;
         }
         
         .feature-table tr:last-child td {
@@ -333,12 +342,16 @@
             margin-right: 15px;
             color: var(--gold-primary);
             vertical-align: middle;
+            width: 40px;
+            text-align: center;
+            display: inline-block;
         }
         
         /* Contact Section */
         .contact-info {
-            margin-top: 50px;
+            margin: 50px auto 0;
             text-align: center;
+            max-width: 800px;
         }
         
         .contact-info p {
@@ -394,6 +407,12 @@
         }
         
         /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .container {
+                width: 95%;
+            }
+        }
+        
         @media (max-width: 992px) {
             .app-name {
                 font-size: 3rem;
@@ -404,7 +423,12 @@
             }
             
             .team-grid {
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .member-photo {
+                width: 160px;
+                height: 160px;
             }
         }
         
@@ -432,6 +456,17 @@
                 top: 20px;
                 left: 20px;
             }
+            
+            .member-photo {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .social-links a {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
         }
         
         @media (max-width: 576px) {
@@ -445,6 +480,9 @@
             
             .team-grid {
                 grid-template-columns: 1fr;
+                max-width: 350px;
+                margin-left: auto;
+                margin-right: auto;
             }
             
             .features-container {
@@ -465,6 +503,11 @@
                 height: 40px;
                 top: 15px;
                 left: 15px;
+            }
+            
+            .member-photo {
+                width: 150px;
+                height: 150px;
             }
         }
     </style>
@@ -505,53 +548,49 @@
         <div class="team-grid">
             <!-- Team Member 1 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="100">
-                <img src="profile1.jpg" alt="Prajwal" class="member-photo">
+                <img src="static\img\profile.jpg" alt="Prajwal" class="member-photo">
                 <h3 class="member-name">Prajwal</h3>
                 <p class="member-role">Lead Developer</p>
                 <p class="member-bio">Tech enthusiast with 5+ years of experience in full-stack development. Passionate about creating seamless educational experiences through innovative technology solutions.</p>
                 <div class="social-links">
-                    <a href="#" class="hvr-float"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-github"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/prajwalganiga?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app " target="_blank" class="hvr-float"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/prajwal_ganiga_?igsh=YW9xOXN3Ympsb3Z3" target="_blank" class="hvr-float"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             
             <!-- Team Member 2 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="200">
-                <img src="profile2.jpg" alt="Ishwarya" class="member-photo">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ishwarya" class="member-photo">
                 <h3 class="member-name">Ishwarya</h3>
                 <p class="member-role">UI/UX Designer</p>
                 <p class="member-bio">Creative designer specializing in educational interfaces. Believes that beautiful, intuitive design can transform the learning experience for students and teachers alike.</p>
                 <div class="social-links">
-                    <a href="#" class="hvr-float"><i class="fab fa-dribbble"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-behance"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/posts/ishwarya-p-2671a232b_create-and-deliver-demos-was-issued-by-celonis-activity-7304779059060703233-5nMO?utm_source=share&utm_medium=member_android&rcm=ACoAAFFP3zEBgR1uuEAFFqnFuBLZp-MBqFchJsE " target="_blank" class="hvr-float"><i class="fab fa-linkedin"></i></a>
+                    <a href=" https://www.instagram.com/is.hwarya154?igsh=MXRlcmlleGc4cjJtdA== " target="_blank" class="hvr-float"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             
             <!-- Team Member 3 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="300">
-                <img src="profile3.jpg" alt="Ujwal Bangera" class="member-photo">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Ujwal Bangera" class="member-photo">
                 <h3 class="member-name">Ujwal Bangera</h3>
                 <p class="member-role">Backend Architect</p>
                 <p class="member-bio">Database wizard and system architect. Focused on building robust, scalable backend systems that can handle thousands of concurrent classroom sessions.</p>
                 <div class="social-links">
-                    <a href="#" class="hvr-float"><i class="fab fa-stack-overflow"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-github"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-medium"></i></a>
+                    <a href="https://www.linkedin.com/in/ujwal-bangera-1557342b9?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="hvr-float"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="hvr-float"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             
             <!-- Team Member 4 -->
             <div class="team-member" data-aos="fade-up" data-aos-delay="400">
-                <img src="profile4.jpg" alt="Nishan" class="member-photo">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Nishan" class="member-photo">
                 <h3 class="member-name">Nishan</h3>
                 <p class="member-role">Educational Specialist</p>
                 <p class="member-bio">Former teacher turned edtech consultant. Ensures our platform meets real classroom needs and aligns with modern pedagogical approaches.</p>
                 <div class="social-links">
-                    <a href="#" class="hvr-float"><i class="fas fa-book"></i></a>
-                    <a href="#" class="hvr-float"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="hvr-float"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://www.linkedin.com/posts/nishan-s-ab5832327_im-happy-to-share-that-ive-obtained-a-new-activity-7307399773387395072-wpyd?utm_source=share&utm_medium=member_android&rcm=ACoAAFFP3zEBgR1uuEAFFqnFuBLZp-MBqFchJsE" target="_blank" class="hvr-float"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/_.nishan._02?igsh=azZlbnZ2d2NobXFn" target="_blank" class="hvr-float"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
