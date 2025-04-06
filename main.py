@@ -11,6 +11,7 @@ from passlib.context import CryptContext
 from openpyxl import Workbook
 from io import BytesIO
 from dotenv import load_dotenv
+from pymongo.errors import PyMongoError
 import os
 
 load_dotenv()
@@ -26,8 +27,8 @@ app.add_middleware(
     SessionMiddleware, 
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
-MONGODB_URI = os.getenv("MONGODB_URI")  # Default for local dev
-mongo_client = MongoClient(MONGODB_URI)
+
+mongo_client = MongoClient(os.getenv("MONGODB_URI"))
 db = mongo_client[os.getenv("DATABASE_NAME", "school_db")]
 
 classrooms_collection = db["classrooms"]
@@ -38,6 +39,16 @@ results_collection = db["results"]
 teachers_collection = db["teachers"]
 
 templates = Jinja2Templates(directory="templates")
+
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"message": "Internal server error", "detail": str(exc)}
+    )
 
 @app.get("/")
 async def index(request: Request):
@@ -58,28 +69,64 @@ async def student_register_page(request: Request):
 
 @app.post("/student-register")
 async def student_register(request: Request):
-    form_data = await request.form()
-    name = form_data.get("name")
-    email = form_data.get("email")
-    password = form_data.get("password")
-    level = form_data.get("level")
+    try:
+        # Get form data
+        form_data = await request.form()
+        name = form_data.get("name")
+        email = form_data.get("email")
+        password = form_data.get("password")
+        level = form_data.get("level")
 
-    if students_collection.find_one({"email": email}):
-        raise HTTPException(status_code=400, detail="Email already registered")
+        # Validate required fields
+        if not all([name, email, password, level]):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="All fields are required"
+            )
 
-    hashed_password = pwd_context.hash(password)
+        # Check if email exists
+        if students_collection.find_one({"email": email}):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered"
+            )
 
-    student_id = generate_student_id()
-    student_data = {
-        "student_id": student_id,
-        "name": name,
-        "email": email,
-        "password": hashed_password,
-        "level": level
-    }
-    students_collection.insert_one(student_data)
+        # Hash password
+        hashed_password = pwd_context.hash(password)
 
-    return RedirectResponse(url="/student-login", status_code=status.HTTP_303_SEE_OTHER)
+        # Create student document
+        student_data = {
+            "student_id": generate_student_id(),
+            "name": name,
+            "email": email,
+            "password": hashed_password,
+            "level": level,
+            "created_at": datetime.now()
+        }
+
+        # Insert document with error handling
+        result = students_collection.insert_one(student_data)
+        if not result.inserted_id:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Failed to create student account"
+            )
+
+        return RedirectResponse(
+            url="/student-login",
+            status_code=status.HTTP_303_SEE_OTHER
+        )
+
+    except PyMongoError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Unexpected error: {str(e)}"
+        )
 
 @app.post("/student-login")
 async def student_login(request: Request):
