@@ -36,8 +36,9 @@ context.verify_mode = ssl.CERT_REQUIRED
 context.check_hostname = True
 
 mongo_client = MongoClient(
-    "mongodb://school_db:prajwal%402005@cluster0-shard-00-00.6qmnao2.mongodb.net:27017,cluster0-shard-00-01.6qmnao2.mongodb.net:27017,cluster0-shard-00-02.6qmnao2.mongodb.net:27017/school_db?ssl=true&replicaSet=atlas-ab9ccgf-shard-0&authSource=admin&retryWrites=true&w=majority",
-    connectTimeoutMS=30000
+    "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
+    connectTimeoutMS=30000,
+    socketTimeoutMS=30000
 )
 
 @app.get("/db-check")
