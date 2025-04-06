@@ -15,6 +15,13 @@ from pymongo.errors import PyMongoError
 import os
 import certifi
 import ssl
+import socket
+
+try:
+    print(socket.gethostbyname('cluster0-shard-00-00.6qmnao2.mongodb.net'))
+except Exception as e:
+    print("DNS resolution failed:", e)
+    
 print(ssl.OPENSSL_VERSION)
 
 
