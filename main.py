@@ -29,9 +29,7 @@ app.add_middleware(
 )
 
 mongo_client = MongoClient(
-    os.getenv("MONGODB_URI"),
-    connectTimeoutMS=30000,
-    socketTimeoutMS=30000
+    os.getenv("MONGODB_URI")
 )
 db = mongo_client("school_db")
 
