@@ -28,8 +28,12 @@ app.add_middleware(
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
 
-mongo_client = MongoClient(os.getenv("MONGODB_URI"))
-db = mongo_client[os.getenv("DATABASE_NAME", "school_db")]
+mongo_client = MongoClient(
+    os.getenv("MONGODB_URI"),
+    connectTimeoutMS=30000,
+    socketTimeoutMS=30000
+)
+db = mongo_client("school_db")
 
 classrooms_collection = db["classrooms"]
 quizzes_collection = db["quizzes"]
