@@ -28,21 +28,23 @@ app.add_middleware(
     SessionMiddleware, 
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
-
 mongo_client = MongoClient(
     os.getenv("MONGODB_URI"),
-    tlsCAFile=certifi.where(),  # This is the correct way to use certifi
+    tlsCAFile=certifi.where(),
     connectTimeoutMS=10000,
     socketTimeoutMS=30000
 )
-db = mongo_client("school_db")
 
-classrooms_collection = db["classrooms"]
-quizzes_collection = db["quizzes"]
-students_collection = db["students"]
-students_users = db["student_user"]
-results_collection = db["results"]
-teachers_collection = db["teachers"]
+# Access database
+db = mongo_client.school_db
+
+# Access collections
+classrooms_collection = db.classrooms
+quizzes_collection = db.quizzes
+students_collection = db.students
+students_users = db.student_user  # Note: consider renaming to student_users for consistency
+results_collection = db.results
+teachers_collection = db.teachers
 
 templates = Jinja2Templates(directory="templates")
 @app.get("/db-health")
