@@ -14,6 +14,9 @@ from dotenv import load_dotenv
 from pymongo.errors import PyMongoError
 import os
 import certifi
+import ssl
+print(ssl.OPENSSL_VERSION)
+
 
 load_dotenv()
 
@@ -30,13 +33,9 @@ app.add_middleware(
 )
 mongo_client = MongoClient(
     "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
-    tls=True,
-    tlsAllowInvalidCertificates=True,  # Temporarily bypass certificate validation
-    connectTimeoutMS=30000,
-    socketTimeoutMS=30000,
-    serverSelectionTimeoutMS=30000,
-    retryWrites=True,
-    appName="StudentFeedbackApp"
+    ssl=True,
+    ssl_cert_reqs=ssl.CERT_NONE,
+    connectTimeoutMS=30000
 )
 
 @app.get("/db-check")
