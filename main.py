@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request, Form, Depends, HTTPException, status, Query
+from fastapi import FastAPI, Request, Form, Depends, HTTPException, status, Query,
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from pymongo import MongoClient
 from bson import ObjectId
@@ -68,6 +69,7 @@ results_collection = db.results
 teachers_collection = db.teachers
 
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/db-health")
 async def healthcheck():
     try:
