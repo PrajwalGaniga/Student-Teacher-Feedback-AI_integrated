@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Classroom</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Fredoka+One&family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Fredoka+One&family=Baloo+2:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <!-- Font Awesome -->
@@ -16,7 +16,26 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Splitting.js for text animations -->
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css">
+    <!-- Hover.css for hover effects -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
     <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-secondary: #FFC000;
+            --gold-dark: #D4AF37;
+            --blue-primary: #2575fc;
+            --blue-dark: #1a5dc8;
+            --text-light: rgba(255, 255, 255, 0.9);
+            --text-lighter: rgba(255, 255, 255, 0.7);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -29,30 +48,36 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             overflow-x: hidden;
             position: relative;
+            color: white;
         }
         
-        /* Floating educational elements */
+        /* Floating educational elements - enhanced */
         .floating-elements {
             position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
             z-index: 0;
+            overflow: hidden;
         }
         
         .floating-element {
             position: absolute;
-            opacity: 0.15;
-            animation: float 15s infinite linear;
+            opacity: 0.2;
+            animation: float 15s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+            z-index: 1;
         }
         
         @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-100px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -50px) rotate(5deg); }
+            50% { transform: translate(100px, 0) rotate(0deg); }
+            75% { transform: translate(50px, 50px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
         }
         
         .container {
@@ -61,27 +86,30 @@
             color: white;
             z-index: 10;
             width: 90%;
-            max-width: 800px;
+            max-width: 1200px;
             padding: 20px;
         }
         
         .logo-container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             margin: 0 auto;
             cursor: pointer;
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.4));
         }
         
         .logo-container:hover {
-            transform: scale(1.05) rotate(5deg);
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 10px 25px rgba(255, 215, 0, 0.6));
         }
         
         #lottie-logo {
             width: 100%;
             height: 100%;
         }
+        
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -89,39 +117,45 @@
         }
         
         .app-name {
-            font-size: 3.5rem; /* Increased font size */
-            font-weight: 900; /* Bolder font */
-            margin-top: 20px;
-            font-family: 'Fredoka One', cursive;
-            background: linear-gradient(45deg, #ffffff, #a7c4ff, #ffffff, #a7c4ff);
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-top: 30px;
+            font-family: 'Fredoka One', 'Playfair Display', cursive;
+            background: linear-gradient(45deg, var(--gold-primary), var(--gold-secondary), var(--gold-dark), var(--gold-secondary), var(--gold-primary));
             -webkit-background-clip: text;
             background-clip: text;
             background-size: 300% 300%;
             -webkit-text-fill-color: transparent;
             text-shadow: 
-                2px 2px 4px rgba(0, 0, 0, 0.3), /* Stronger shadow */
-                0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect */
+                0 0 10px rgba(255, 215, 0, 0.3),
+                0 0 20px rgba(255, 215, 0, 0.2),
+                0 0 30px rgba(255, 215, 0, 0.1);
             position: relative;
             display: inline-block;
-            letter-spacing: 1px; /* Slightly wider spacing */
-            padding: 0 10px;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 5s ease infinite;
-            line-height: 1.2;
+            letter-spacing: 2px;
+            padding: 0 15px;
+            animation: gradientShift 8s ease infinite, glow 3s ease-in-out infinite alternate;
+            line-height: 1.1;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 0px rgba(255, 217, 0, 0.916), 0 0 10px rgba(255, 217, 0, 0.474); }
+            to { text-shadow: 0 0 15px rgba(255, 217, 0, 0.794), 0 0 25px rgba(255, 217, 0, 0.675), 0 0 35px rgba(255, 215, 0, 0.2); }
         }
         
         .app-name::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            border-radius: 2px;
+            height: 5px;
+            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+            border-radius: 50%;
             transform: scaleX(0);
             transform-origin: left;
-            animation: underline 2s 1.5s forwards;
+            animation: underline 2s 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            box-shadow: 0 0 10px var(--gold-primary);
         }
         
         @keyframes underline {
@@ -129,15 +163,17 @@
         }
         
         .tagline {
-            font-size: 1.2rem;
-            margin-top: 15px;
+            font-size: 1.5rem;
+            margin-top: 25px;
             opacity: 0;
-            animation: fadeIn 1s 2s forwards;
+            animation: fadeIn 1.5s 2s forwards;
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             max-width: 80%;
             margin-left: auto;
             margin-right: auto;
+            color: var(--text-light);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         @keyframes fadeIn {
@@ -151,115 +187,188 @@
         
         .portal-container {
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            perspective: 1000px;
         }
         
         .portal-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s 0.3s;
+            transform: translateY(30px) rotateX(15deg);
+            transition: all 1s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .portal-header.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotateX(0);
         }
         
         .portal-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 15px;
-            font-family: 'Fredoka One', cursive;
-            background: linear-gradient(to right, #fff, #c9d6ff);
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(to right, var(--gold-primary), var(--gold-secondary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .portal-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+            border-radius: 3px;
         }
         
         .portal-thought {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-style: italic;
-            opacity: 0.9;
-            max-width: 600px;
+            opacity: 0;
+            max-width: 700px;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.8;
             position: relative;
-            padding: 0 20px;
+            padding: 20px 30px;
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
+            transition: all 1s 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .portal-header.visible .portal-thought {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .portal-thought::before,
         .portal-thought::after {
             content: '"';
-            font-size: 2rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 3rem;
+            color: var(--gold-primary);
             position: absolute;
+            opacity: 0.5;
+            font-family: 'Times New Roman', serif;
         }
         
         .portal-thought::before {
-            top: -10px;
-            left: 0;
+            top: 0;
+            left: 10px;
         }
         
         .portal-thought::after {
-            bottom: -20px;
-            right: 0;
+            bottom: -30px;
+            right: 10px;
         }
         
         .portal-options {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             opacity: 0;
-            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background: rgba(255, 255, 255, 0.15);
-            padding: 30px 40px;
-            border-radius: 20px;
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: rgba(15, 15, 35, 0.6);
+            padding: 40px 50px;
+            border-radius: 25px;
             backdrop-filter: blur(15px);
-            box-shadow: 0 20px 50px rgba(8, 115, 237, 0.3);
-            transform: translateY(30px);
-            margin-top: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 60px rgba(8, 20, 60, 0.4);
+            transform: translateY(40px) rotateY(10deg);
+            margin-top: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-options::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .portal-options.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotateY(0);
         }
         
         .portal-options a {
             text-decoration: none;
-            padding: 15px 30px;
+            padding: 20px 40px;
             border-radius: 50px;
-            background: linear-gradient(45deg, #003c8f, #0066ff);
-            color: #fff;
-            font-size: 1.3rem;
+            background: linear-gradient(45deg, var(--blue-primary), var(--blue-dark));
+            color: white;
+            font-size: 1.4rem;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             text-align: center;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .portal-options a i {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-        
-        .portal-options a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(42, 255, 18, 0.3);
-            background: linear-gradient(45deg, #002b6f, #0055ff);
+            box-shadow: 0 8px 25px rgba(0, 50, 150, 0.3);
+            border: none;
+            z-index: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         .portal-options a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--blue-dark), var(--blue-primary));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .portal-options a:hover::before {
+            opacity: 1;
+        }
+        
+        .portal-options a i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .portal-options a:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 80, 200, 0.4);
+        }
+        
+        .portal-options a:hover i {
+            transform: scale(1.2);
+        }
+        
+        .portal-options a::after {
             content: '';
             position: absolute;
             top: 0;
@@ -267,10 +376,10 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+            transition: 0.6s;
         }
         
-        .portal-options a:hover::before {
+        .portal-options a:hover::after {
             left: 100%;
         }
         
@@ -282,87 +391,222 @@
             pointer-events: none;
         }
         
-        /* New Features */
-        .click-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            opacity: 0.7;
-            animation: pulse 2s infinite;
-            display: none !important;
-            align-items: center;
-            z-index: 20;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
-            100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-        }
-        
-        .click-hint i {
-            margin-right: 8px;
-        }
-        
+        /* Features Grid - Enhanced (Fixed display issue) */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s 0.6s;
-        }
-        
-        .features-grid.visible {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
+            transition: none;
         }
         
         .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px 20px;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: default;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 1;
+            transform: none;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.2);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
         }
         
         .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--gold-primary);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
         }
         
         .feature-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feature-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gold-primary);
+            transition: width 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-title::after {
+            width: 60px;
         }
         
         .feature-desc {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             opacity: 0.8;
+            line-height: 1.6;
+            color: var(--text-lighter);
+        }
+        
+        /* Back button - Enhanced */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1) translateX(-5px);
+            color: var(--gold-primary);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .back-btn:hover i {
+            transform: translateX(-3px);
         }
         
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .app-name {
+                font-size: 3.5rem;
+            }
+            
+            .portal-title {
                 font-size: 2.5rem;
             }
-
+            
+            .portal-thought {
+                font-size: 1.1rem;
+                padding: 15px 25px;
+            }
+            
+            .portal-options a {
+                padding: 18px 35px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app-name {
+                font-size: 2.8rem;
+                display: flex;
+                flex-direction: column;
+                line-height: 1.2;
+            }
+            
+            .app-name span {
+                display: block;
+            }
+            
             .tagline {
-                font-size: 0.9rem;
+                font-size: 1.1rem;
                 max-width: 90%;
+            }
+            
+            .portal-title {
+                font-size: 2rem;
+            }
+            
+            .portal-thought {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+            
+            .portal-options {
+                padding: 30px;
+            }
+            
+            .portal-options a {
+                font-size: 1.1rem;
+                padding: 15px 25px;
+            }
+            
+            .logo-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .back-btn {
+                width: 45px;
+                height: 45px;
+                top: 20px;
+                left: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .app-name {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 0.95rem;
             }
             
             .portal-title {
@@ -371,7 +615,7 @@
             
             .portal-thought {
                 font-size: 0.9rem;
-                padding: 0 15px;
+                padding: 12px 15px;
             }
             
             .portal-options {
@@ -388,85 +632,108 @@
                 height: 120px;
             }
             
-            .click-hint {
-                font-size: 0.8rem;
-                bottom: 15px;
-            }
-            
             .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .app-name {
-                font-size: 2rem;
-            }
-            
-            .portal-title {
-                font-size: 1.5rem;
-            }
-            
-            .portal-options a {
-                font-size: 0.9rem;
-                padding: 10px 15px;
-            }
-            
-            .portal-thought {
-                font-size: 0.8rem;
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .feature-card {
-                padding: 10px;
+                padding: 20px 15px;
             }
             
             .feature-icon {
-                font-size: 1.5rem;
+                font-size: 2rem;
             }
             
             .feature-title {
-                font-size: 0.8rem;
+                font-size: 1rem;
             }
             
             .feature-desc {
-                font-size: 0.7rem;
+                font-size: 0.85rem;
             }
             
-            .click-hint {
-                font-size: 0.7rem;
-                bottom: 10px;
+            .back-btn {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                left: 15px;
             }
         }
         
-        /* Back button */
-        .back-btn {
+        /* Special animations for the app name letters */
+        .char {
+            display: inline-block;
+            position: relative;
+        }
+        
+        /* Confetti effect */
+        .confetti {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
+            width: 10px;
+            height: 10px;
+            background-color: var(--gold-primary);
             opacity: 0;
-            visibility: hidden;
+            z-index: 100;
+            pointer-events: none;
         }
         
-        .back-btn.visible {
-            opacity: 1;
-            visibility: visible;
+        /* Floating cursor follower */
+        .cursor-follower {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            transition: transform 0.1s ease;
         }
         
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
+        /* Ripple effect for buttons */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            margin-top: 5px;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-10px) translateX(-50%); }
+            60% { transform: translateY(-5px) translateX(-50%); }
         }
     </style>
 </head>
@@ -474,17 +741,24 @@
     <!-- Particles background -->
     <div id="particles-js"></div>
     
-    <!-- Floating educational elements -->
+    <!-- Floating educational elements - enhanced with more variety -->
     <div class="floating-elements">
-        <i class="floating-element fas fa-book" style="font-size: 30px; top: 10%; left: 15%;"></i>
-        <i class="floating-element fas fa-pencil-alt" style="font-size: 25px; top: 25%; left: 80%; animation-delay: 2s;"></i>
-        <i class="floating-element fas fa-ruler-combined" style="font-size: 35px; top: 70%; left: 20%; animation-delay: 4s;"></i>
-        <i class="floating-element fas fa-flask" style="font-size: 40px; top: 50%; left: 75%; animation-delay: 1s;"></i>
-        <i class="floating-element fas fa-calculator" style="font-size: 20px; top: 80%; left: 65%; animation-delay: 3s;"></i>
-        <i class="floating-element fas fa-atom" style="font-size: 50px; top: 15%; left: 50%; animation-delay: 5s;"></i>
-        <i class="floating-element fas fa-laptop-code" style="font-size: 35px; top: 30%; left: 25%; animation-delay: 1.5s;"></i>
-        <i class="floating-element fas fa-microscope" style="font-size: 45px; top: 65%; left: 70%; animation-delay: 3.5s;"></i>
+        <i class="floating-element fas fa-book" style="font-size: 40px; top: 10%; left: 15%; animation-duration: 18s;"></i>
+        <i class="floating-element fas fa-pencil-alt" style="font-size: 35px; top: 25%; left: 80%; animation-duration: 22s; animation-delay: 3s;"></i>
+        <i class="floating-element fas fa-ruler-combined" style="font-size: 45px; top: 70%; left: 20%; animation-duration: 20s; animation-delay: 5s;"></i>
+        <i class="floating-element fas fa-flask" style="font-size: 50px; top: 50%; left: 75%; animation-duration: 25s; animation-delay: 1s;"></i>
+        <i class="floating-element fas fa-calculator" style="font-size: 30px; top: 80%; left: 65%; animation-duration: 17s; animation-delay: 4s;"></i>
+        <i class="floating-element fas fa-atom" style="font-size: 60px; top: 15%; left: 50%; animation-duration: 30s; animation-delay: 6s;"></i>
+        <i class="floating-element fas fa-laptop-code" style="font-size: 45px; top: 30%; left: 25%; animation-duration: 19s; animation-delay: 2s;"></i>
+        <i class="floating-element fas fa-microscope" style="font-size: 55px; top: 65%; left: 70%; animation-duration: 24s; animation-delay: 4s;"></i>
+        <i class="floating-element fas fa-graduation-cap" style="font-size: 50px; top: 40%; left: 10%; animation-duration: 21s; animation-delay: 3s;"></i>
+        <i class="floating-element fas fa-brain" style="font-size: 40px; top: 75%; left: 85%; animation-duration: 23s; animation-delay: 1s;"></i>
+        <i class="floating-element fas fa-chart-bar" style="font-size: 35px; top: 20%; left: 30%; animation-duration: 20s; animation-delay: 5s;"></i>
+        <i class="floating-element fas fa-paint-brush" style="font-size: 30px; top: 60%; left: 40%; animation-duration: 18s; animation-delay: 2s;"></i>
     </div>
+    
+    <!-- Cursor follower -->
+    <div class="cursor-follower"></div>
     
     <!-- Back button (hidden initially) -->
     <button class="back-btn hidden" id="backBtn">
@@ -496,11 +770,12 @@
             <div id="lottie-logo"></div>
         </div>
         
-        <h1 class="app-name animate__animated animate__fadeInDown">SMART CLASSROOM</h1>
+        <h1 class="app-name" data-splitting>SMART CLASSROOM</h1>
         <p class="tagline">Where Learning Meets Innovation</p>
         
-        <div class="click-hint animate__animated animate__fadeInUp animate__delay-2s">
-            <i class="fas fa-hand-pointer"></i>
+        <div class="scroll-indicator animate__animated animate__fadeInUp animate__delay-2s">
+           
+            <i class="fas fa-chevron-down"></i>
         </div>
     </div>
     
@@ -510,14 +785,15 @@
             <p class="portal-thought">Education is the most powerful weapon which you can use to change the world. Let's embark on this journey of knowledge together.</p>
         </div>
         <div class="portal-options">
-            <a href="/student-login" data-aos="fade-up" data-aos-delay="300">
+            <a href="/student-login" class="hvr-float-shadow" data-aos="fade-up" data-aos-delay="300">
                 <i class="fas fa-user-graduate"></i>
                 Student Portal
             </a>
-            <a href="/teacher-login" data-aos="fade-up" data-aos-delay="500">
+            <a href="/teacher-login" class="hvr-float-shadow" data-aos="fade-up" data-aos-delay="500">
                 <i class="fas fa-chalkboard-teacher"></i>
                 Teacher Portal
             </a>
+           
             
             <div class="features-grid" id="featuresGrid">
                 <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
@@ -525,28 +801,42 @@
                         <i class="fas fa-book-open"></i>
                     </div>
                     <div class="feature-title">Interactive Lessons</div>
-                    <div class="feature-desc">Engaging multimedia content</div>
+                    <div class="feature-desc">Engaging multimedia content with animations and simulations</div>
                 </div>
                 <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="feature-title">Progress Tracking</div>
-                    <div class="feature-desc">Monitor your learning journey</div>
+                    <div class="feature-desc">Real-time analytics and performance monitoring</div>
                 </div>
                 <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
                     <div class="feature-icon">
                         <i class="fas fa-comments"></i>
                     </div>
                     <div class="feature-title">Collaboration</div>
-                    <div class="feature-desc">Connect with peers and teachers</div>
+                    <div class="feature-desc">Discussion forums and group projects</div>
                 </div>
                 <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
                     <div class="feature-icon">
                         <i class="fas fa-tasks"></i>
                     </div>
                     <div class="feature-title">Assignments</div>
-                    <div class="feature-desc">Submit work digitally</div>
+                    <div class="feature-desc">Digital submission with automatic grading</div>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="feature-title">Video Lectures</div>
+                    <div class="feature-desc">Recorded and live streaming options</div>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="feature-title">Certification</div>
+                    <div class="feature-desc">Digital badges and completion certificates</div>
                 </div>
             </div>
         </div>
@@ -558,12 +848,16 @@
     <script>
         // Initialize AOS animation library
         AOS.init({
-            duration: 800,
-            easing: 'ease-out-quad',
-            once: true
+            duration: 1000,
+            easing: 'ease-out-back',
+            once: true,
+            offset: 100
         });
         
-        // Lottie animation for logo
+        // Initialize Splitting.js for text animations
+        Splitting();
+        
+        // Lottie animation for logo - more modern animation
         const logoAnimation = lottie.loadAnimation({
             container: document.getElementById('lottie-logo'),
             renderer: 'svg',
@@ -572,21 +866,21 @@
             path: 'https://assets5.lottiefiles.com/packages/lf20_vybwn7df.json'
         });
         
-        // Initialize particles.js
+        // Enhanced particles.js configuration
         particlesJS("particles-js", {
             "particles": {
                 "number": {
-                    "value": 50,
+                    "value": 80,
                     "density": {
                         "enable": true,
-                        "value_area": 800
+                        "value_area": 1000
                     }
                 },
                 "color": {
                     "value": "#ffffff"
                 },
                 "shape": {
-                    "type": "circle",
+                    "type": ["circle", "triangle", "polygon"],
                     "stroke": {
                         "width": 0,
                         "color": "#000000"
@@ -596,7 +890,7 @@
                     }
                 },
                 "opacity": {
-                    "value": 0.3,
+                    "value": 0.4,
                     "random": true,
                     "anim": {
                         "enable": true,
@@ -606,12 +900,12 @@
                     }
                 },
                 "size": {
-                    "value": 2,
+                    "value": 3,
                     "random": true,
                     "anim": {
                         "enable": true,
                         "speed": 2,
-                        "size_min": 0.1,
+                        "size_min": 0.3,
                         "sync": false
                     }
                 },
@@ -620,11 +914,11 @@
                     "distance": 150,
                     "color": "#ffffff",
                     "opacity": 0.2,
-                    "width": 1
+                    "width": 1.5
                 },
                 "move": {
                     "enable": true,
-                    "speed": 1,
+                    "speed": 1.5,
                     "direction": "none",
                     "random": true,
                     "straight": false,
@@ -641,8 +935,8 @@
                 "detect_on": "canvas",
                 "events": {
                     "onhover": {
-                        "enable": false,
-                        "mode": "grab"
+                        "enable": true,
+                        "mode": "bubble"
                     },
                     "onclick": {
                         "enable": true,
@@ -658,10 +952,10 @@
                         }
                     },
                     "bubble": {
-                        "distance": 400,
-                        "size": 40,
+                        "distance": 200,
+                        "size": 10,
                         "duration": 2,
-                        "opacity": 8,
+                        "opacity": 0.8,
                         "speed": 3
                     },
                     "repulse": {
@@ -669,7 +963,7 @@
                         "duration": 0.4
                     },
                     "push": {
-                        "particles_nb": 4
+                        "particles_nb": 6
                     },
                     "remove": {
                         "particles_nb": 2
@@ -679,91 +973,114 @@
             "retina_detect": true
         });
         
-        // Animation sequence
+        // Cursor follower effect
+        const cursorFollower = document.querySelector('.cursor-follower');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursorFollower, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+        });
+        
+        // Animation sequence with GSAP for smoother transitions
         document.addEventListener('DOMContentLoaded', function() {
-            // Animate the app name letters individually
-            const appName = document.querySelector('.app-name');
-            const letters = appName.textContent.split('');
-            appName.innerHTML = '';
-            
-            letters.forEach((letter, index) => {
-                const span = document.createElement('span');
-                span.textContent = letter;
-                span.style.display = 'inline-block';
-                span.style.transform = 'translateY(0)';
-                span.style.transition = `transform 0.3s ${index * 0.05}s`;
-                appName.appendChild(span);
-                
-                if (window.innerWidth > 768) {
-                    span.addEventListener('mouseover', () => {
-                        span.style.transform = 'translateY(-15px)';
-                        setTimeout(() => {
-                            span.style.transform = 'translateY(0)';
-                        }, 300);
-                    });
-                }
+            // Animate the app name letters individually with GSAP
+            gsap.from(".char", {
+                y: 50,
+                opacity: 0,
+                rotation: 10,
+                duration: 1,
+                ease: "back.out(1.7)",
+                stagger: 0.05,
+                delay: 0.5
             });
             
             // Click handler for the intro section
             document.getElementById("intro").addEventListener("click", function() {
-                this.classList.add('animate__animated', 'animate__fadeOut');
+                // Create confetti effect
+                createConfetti();
                 
-                setTimeout(() => {
-                    this.style.display = "none";
-                    const options = document.getElementById("options");
-                    options.classList.remove("hidden");
-                    
-                    // Show back button
-                    document.getElementById("backBtn").classList.add("visible");
-                    
-                    // Animate the header first
-                    const header = document.getElementById("portal-header");
-                    setTimeout(() => {
-                        header.classList.add("visible");
-                    }, 50);
-                    
-                    // Then animate the options
-                    setTimeout(() => {
+                // Animate out the intro with GSAP
+                gsap.to(this, {
+                    opacity: 0,
+                    y: -50,
+                    duration: 0.8,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        this.style.display = "none";
+                        const options = document.getElementById("options");
+                        options.classList.remove("hidden");
+                        
+                        // Show back button
+                        document.getElementById("backBtn").classList.add("visible");
+                        
+                        // Animate in the portal with GSAP
+                        gsap.fromTo(options, 
+                            { opacity: 0, y: 50 },
+                            { opacity: 1, y: 0, duration: 1, ease: "elastic.out(1, 0.5)" }
+                        );
+                        
+                        // Animate the header
+                        document.getElementById("portal-header").classList.add("visible");
+                        
+                        // Animate the options
                         document.querySelector(".portal-options").classList.add("visible");
-                    }, 300);
-                    
-                    // Then animate the features grid
-                    setTimeout(() => {
-                        document.getElementById("featuresGrid").classList.add("visible");
-                    }, 600);
-                }, 800);
+                        
+                        // Animate the features grid
+                        //document.getElementById("featuresGrid").classList.add("visible");
+                        
+                        // Animate each feature card individually
+                       /* gsap.from(".feature-card", {
+                            y: 30,
+                            opacity: 0,
+                            duration: 0.8,
+                            stagger: 0.1,
+                            delay: 0.5,
+                            ease: "back.out(1.7)"
+                        });*/
+                    }
+                });
             });
             
             // Back button functionality
             document.getElementById("backBtn").addEventListener("click", function() {
-                const options = document.getElementById("options");
-                options.classList.add("animate__animated", "animate__fadeOut");
+                // Create confetti effect
+                createConfetti();
                 
-                setTimeout(() => {
-                    options.style.display = "none";
-                    options.classList.remove("animate__fadeOut");
-                    options.classList.add("hidden");
-                    
-                    const intro = document.getElementById("intro");
-                    intro.style.display = "block";
-                    intro.classList.remove("animate__fadeOut");
-                    intro.classList.add("animate__fadeIn");
-                    
-                    this.classList.remove("visible");
-                }, 500);
+                const options = document.getElementById("options");
+                gsap.to(options, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        options.style.display = "none";
+                        options.classList.add("hidden");
+                        
+                        const intro = document.getElementById("intro");
+                        intro.style.display = "block";
+                        
+                        // Animate in the intro with GSAP
+                        gsap.fromTo(intro, 
+                            { opacity: 0, y: -50 },
+                            { opacity: 1, y: 0, duration: 1, ease: "elastic.out(1, 0.5)" }
+                        );
+                        
+                        this.classList.remove("visible");
+                    }
+                });
             });
             
-            // Auto-trigger animation after 5 seconds if no interaction
-            const autoTrigger = setTimeout(() => {
-                document.getElementById("intro").click();
-            }, 5000);
+            // Scroll trigger for the intro section
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50 && document.getElementById("intro").style.display !== "none") {
+                    document.getElementById("intro").click();
+                }
+            });
             
-            // Cancel auto-trigger if user interacts
-            document.addEventListener('click', () => {
-                clearTimeout(autoTrigger);
-            }, { once: true });
-            
-            // Add ripple effect to buttons
+            // Add ripple effect to buttons with GSAP
             document.querySelectorAll('.portal-options a').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -771,12 +1088,6 @@
                     // Create ripple element
                     const ripple = document.createElement('span');
                     ripple.className = 'ripple';
-                    ripple.style.position = 'absolute';
-                    ripple.style.borderRadius = '50%';
-                    ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
-                    ripple.style.transform = 'scale(0)';
-                    ripple.style.animation = 'ripple 0.6s linear';
-                    ripple.style.pointerEvents = 'none';
                     
                     // Position the ripple
                     const rect = this.getBoundingClientRect();
@@ -787,27 +1098,70 @@
                     
                     this.appendChild(ripple);
                     
-                    // Remove ripple after animation
-                    setTimeout(() => {
-                        ripple.remove();
-                        // Navigate after ripple effect
-                        window.location.href = this.getAttribute('href');
-                    }, 600);
+                    // Animate ripple with GSAP
+                    gsap.to(ripple, {
+                        scale: 4,
+                        opacity: 0,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            ripple.remove();
+                            // Navigate after ripple effect
+                            window.location.href = this.getAttribute('href');
+                        }
+                    });
                 });
             });
-            
-            // Add keyframe for ripple effect
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(2);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
         });
+        
+        // Confetti effect function
+        function createConfetti() {
+            const colors = ['#FFD700', '#FFC000', '#D4AF37', '#FFFFFF', '#2575fc'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -20 + 'px';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                document.body.appendChild(confetti);
+                
+                const animationDuration = Math.random() * 3 + 2;
+                
+                gsap.to(confetti, {
+                    y: window.innerHeight + 20,
+                    x: (Math.random() - 0.5) * 200,
+                    rotation: Math.random() * 360,
+                    opacity: 1,
+                    duration: animationDuration,
+                    ease: "power1.out",
+                    onComplete: () => {
+                        confetti.remove();
+                    }
+                });
+                
+                // Random delay for each confetti
+                gsap.from(confetti, {
+                    opacity: 0,
+                    duration: 0.3,
+                    delay: Math.random() * 0.5
+                });
+            }
+        }
+        
+        // Auto-trigger animation after 8 seconds if no interaction
+        const autoTrigger = setTimeout(() => {
+            createConfetti();
+            document.getElementById("intro").click();
+        }, 8000);
+        
+        // Cancel auto-trigger if user interacts
+        document.addEventListener('click', () => {
+            clearTimeout(autoTrigger);
+        }, { once: true });
     </script>
 </body>
 </html>
