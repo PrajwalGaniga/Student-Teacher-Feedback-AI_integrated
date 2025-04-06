@@ -29,15 +29,12 @@ app.add_middleware(
     secret_key=os.getenv("SECRET_KEY", secrets.token_hex(32))
 )
 mongo_client = MongoClient(
-    os.getenv("MONGODB_URI"),
-    tls=True,
-    tlsAllowInvalidCertificates=False,  # Keep this False for production
-    tlsCAFile=certifi.where(),
+    "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
+    ssl=True,  # Use ssl instead of tls
+    ssl_cert_reqs=False,  # Disables certificate verification
     connectTimeoutMS=30000,
     socketTimeoutMS=30000,
-    serverSelectionTimeoutMS=30000,
-    retryWrites=True,
-    appName="StudentFeedbackApp"
+    serverSelectionTimeoutMS=30000
 )
 @app.get("/db-check")
 async def db_check():
@@ -59,13 +56,12 @@ teachers_collection = db.teachers
 
 templates = Jinja2Templates(directory="templates")
 @app.get("/db-health")
-async def db_health():
+async def healthcheck():
     try:
         db.command('ping')
-        return {"status": "healthy"}
+        return {"status": "healthy", "collections": db.list_collection_names()}
     except Exception as e:
         return {"status": "error", "detail": str(e)}
-
 
 
 @app.exception_handler(Exception)
