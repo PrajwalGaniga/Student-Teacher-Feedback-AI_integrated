@@ -30,7 +30,10 @@ app.add_middleware(
 )
 
 mongo_client = MongoClient(
-    os.getenv("MONGODB_URI"),tls=True
+    os.getenv("MONGODB_URI"),
+    tlsCAFile=certifi.where(),  # This is the correct way to use certifi
+    connectTimeoutMS=10000,
+    socketTimeoutMS=30000
 )
 db = mongo_client("school_db")
 
@@ -42,9 +45,15 @@ results_collection = db["results"]
 teachers_collection = db["teachers"]
 
 templates = Jinja2Templates(directory="templates")
+@app.get("/db-health")
+async def db_health():
+    try:
+        db.command('ping')
+        return {"status": "healthy"}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}
 
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+
 
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):
