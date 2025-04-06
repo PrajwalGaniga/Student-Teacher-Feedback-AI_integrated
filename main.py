@@ -30,11 +30,13 @@ app.add_middleware(
 )
 mongo_client = MongoClient(
     "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
-    tls=True,  # Use TLS
-    tlsAllowInvalidCertificates=True,  # Temporarily allow invalid certs for testing
+    tls=True,
+    tlsAllowInvalidCertificates=True,  # Temporarily bypass certificate validation
     connectTimeoutMS=30000,
     socketTimeoutMS=30000,
-    serverSelectionTimeoutMS=30000
+    serverSelectionTimeoutMS=30000,
+    retryWrites=True,
+    appName="StudentFeedbackApp"
 )
 
 @app.get("/db-check")
