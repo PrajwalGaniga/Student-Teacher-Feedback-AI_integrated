@@ -33,8 +33,6 @@ app.add_middleware(
 )
 mongo_client = MongoClient(
     "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
-    ssl=True,
-    ssl_cert_reqs=ssl.CERT_NONE,
     connectTimeoutMS=30000
 )
 
