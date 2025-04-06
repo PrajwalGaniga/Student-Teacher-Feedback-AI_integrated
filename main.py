@@ -13,6 +13,7 @@ from io import BytesIO
 from dotenv import load_dotenv
 from pymongo.errors import PyMongoError
 import os
+import certifi
 
 load_dotenv()
 
@@ -29,7 +30,7 @@ app.add_middleware(
 )
 
 mongo_client = MongoClient(
-    os.getenv("MONGODB_URI")
+    os.getenv("MONGODB_URI"),tls=True
 )
 db = mongo_client("school_db")
 
