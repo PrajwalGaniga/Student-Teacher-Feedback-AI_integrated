@@ -173,10 +173,13 @@
         /* Team Section */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
             gap: 30px;
             margin-top: 40px;
             justify-items: center;
+            max-width: 800px; /* Limit width for better alignment */
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .team-member {
@@ -423,8 +426,11 @@
             }
             
             .team-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                grid-template-columns: 1fr; /* Single column on tablet/mobile */
+                max-width: 350px;
             }
+        
+    
             
             .member-photo {
                 width: 160px;
