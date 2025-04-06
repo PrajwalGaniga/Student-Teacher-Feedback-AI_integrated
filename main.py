@@ -30,12 +30,13 @@ app.add_middleware(
 )
 mongo_client = MongoClient(
     "mongodb+srv://school_db:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority",
-    ssl=True,  # Use ssl instead of tls
-    ssl_cert_reqs=False,  # Disables certificate verification
+    tls=True,  # Use TLS
+    tlsAllowInvalidCertificates=True,  # Temporarily allow invalid certs for testing
     connectTimeoutMS=30000,
     socketTimeoutMS=30000,
     serverSelectionTimeoutMS=30000
 )
+
 @app.get("/db-check")
 async def db_check():
     try:
