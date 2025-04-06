@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from pymongo.errors import PyMongoError
 import os
 import certifi
-import ssl
+import ssl,urllib.parse
 import socket
 
 try:
@@ -42,10 +42,16 @@ context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.verify_mode = ssl.CERT_REQUIRED
 context.check_hostname = True
 
-mongo_client = MongoClient(
-    "mongodb://school_db:prajwal%402005@cluster0-shard-00-00.6qmnao2.mongodb.net:27017,cluster0-shard-00-01.6qmnao2.mongodb.net:27017,cluster0-shard-00-02.6qmnao2.mongodb.net:27017/school_db?ssl=true&replicaSet=atlas-ab9ccgf-shard-0&authSource=admin&retryWrites=true&w=majority",
-    connectTimeoutMS=30000
+MONGO_URI = (
+    "mongodb://school_db:" +
+    urllib.parse.quote_plus("prajwal@2005") +  # Safe encoding of '@'
+    "@cluster0-shard-00-00.6qmnao2.mongodb.net:27017,"
+    "cluster0-shard-00-01.6qmnao2.mongodb.net:27017,"
+    "cluster0-shard-00-02.6qmnao2.mongodb.net:27017/"
+    "school_db?ssl=true&replicaSet=atlas-ab9ccgf-shard-0&authSource=admin&retryWrites=true&w=majority"
 )
+mongo_client = MongoClient(MONGO_URI, connectTimeoutMS=30000)
+
 @app.get("/db-check")
 async def db_check():
     try:
@@ -65,6 +71,7 @@ results_collection = db.results
 teachers_collection = db.teachers
 
 templates = Jinja2Templates(directory="templates")
+
 @app.get("/db-health")
 async def healthcheck():
     try:
