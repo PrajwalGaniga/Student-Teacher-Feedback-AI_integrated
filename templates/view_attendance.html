@@ -66,12 +66,114 @@
             gap: 15px;
         }
         
-        .date-filter select, 
-        .date-filter input {
-            padding: 8px 12px;
+        .date-filter {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .date-filter label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .date-filter label i {
+            font-size: 1.1rem;
+        }
+        
+        .filter-select {
+            padding: 10px 12px;
+            padding-right: 32px;
             border-radius: 8px;
             border: 1px solid #ddd;
             font-family: 'Poppins', sans-serif;
+            background-color: white;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+            appearance: none;
+            transition: var(--transition);
+            min-width: 120px;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+        
+        .filter-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            height: 42px;
+        }
+        
+        .filter-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+        
+        .filter-btn i {
+            font-size: 1.1rem;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode .filter-select {
+            background-color: #3d3d3d;
+            border-color: #555;
+            color: #f0f0f0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23aab7ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        
+        body.dark-mode .filter-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.2);
+        }
+        
+        body.dark-mode .date-filter label {
+            color: #bbb;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .date-filter {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .filter-select {
+                width: 100%;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         .stats-cards {
@@ -112,26 +214,37 @@
             color: var(--danger);
         }
         
+        .attendance-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
         .attendance-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            min-width: 600px; /* Minimum width to prevent squeezing */
         }
         
         .attendance-table th,
         .attendance-table td {
-            padding: 15px;
+            padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            vertical-align: middle;
         }
         
         .attendance-table th {
             background: var(--primary-light);
             color: var(--primary);
             font-weight: 600;
+            position: sticky;
+            top: 0;
         }
         
         .attendance-table tr:last-child td {
@@ -144,10 +257,28 @@
         
         .present-count {
             font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .present-input {
+            width: 60px;
+            padding: 6px 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .present-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
         }
         
         .attendance-percent {
             font-weight: 600;
+            white-space: nowrap;
         }
         
         .percent-high {
@@ -159,18 +290,27 @@
         }
         
         .update-btn {
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
             background: var(--primary-light);
             color: var(--primary);
             border: none;
             cursor: pointer;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
         
         .update-btn:hover {
             background: var(--primary);
             color: white;
+            transform: translateY(-1px);
+        }
+        
+        .update-btn i {
+            font-size: 18px;
         }
         
         .action-buttons {
@@ -708,6 +848,29 @@
                 width: 100%;
                 max-width: 350px;
             }
+            .attendance-table th,
+    .attendance-table td {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .present-input {
+        width: 50px;
+        padding: 5px;
+    }
+    
+    .update-btn {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .update-btn i {
+        font-size: 16px;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
         }
 
         @media (max-width: 576px) {
@@ -798,6 +961,61 @@
             border-color: var(--accent);
             box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.2);
         }
+        @media (max-width: 480px) {
+            .summary-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .date-filter {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .date-filter select, 
+            .date-filter input {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Dark mode adjustments */
+        body.dark-mode .attendance-table-container,
+        body.dark-mode .attendance-table {
+            background: #2d2d2d;
+        }
+        
+        body.dark-mode .attendance-table th {
+            background: rgba(67, 97, 238, 0.2);
+            color: #aab7ff;
+        }
+        
+        body.dark-mode .attendance-table tr:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        body.dark-mode .present-input {
+            background: #3d3d3d;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .present-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -865,17 +1083,37 @@
                     <p>Class: <span class="code">{{ classroom.name }}</span> ({{ classroom.c_code }})</p>
                 </div>
                 <div class="date-filter">
-                    <select id="monthFilter">
-                        <option value="all">All Months</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <!-- Add all months -->
-                    </select>
-                    <select id="yearFilter">
-                        <option value="2023">2023</option>
-                        <option value="2024" selected>2024</option>
-                        <!-- Add more years as needed -->
-                    </select>
+                    <div class="filter-group">
+                        <label for="monthFilter"><i class="material-icons">calendar_today</i> Month</label>
+                        <select id="monthFilter" class="filter-select">
+                            <option value="all">All Months</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="yearFilter"><i class="material-icons">event</i> Year</label>
+                        <select id="yearFilter" class="filter-select">
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024" selected>2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                        </select>
+                    </div>
+                    <button id="applyFilterBtn" class="filter-btn">
+                        <i class="material-icons">filter_alt</i> Apply
+                    </button>
                 </div>
             </div>
             <div class="search-container" style="margin-bottom: 20px;">
@@ -910,43 +1148,44 @@
                     <div class="value">{{ overall_percentage }}%</div>
                 </div>
             </div>
-            
-            <table class="attendance-table">
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Student ID</th>
-                        <th>Present Classes</th>
-                        <th>Attendance %</th>
-                        <th>Update</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                    <tr>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.student_id }}</td>
-                        <td class="present-count">
-                            <input type="number" 
-                                   value="{{ student.present_classes }}" 
-                                   min="0" 
-                                   max="{{ total_classes }}" 
-                                   class="present-input" 
-                                   data-student-id="{{ student.student_id }}">  <!-- Changed from id to student_id -->
-                            / {{ total_classes }}
-                        </td>
-                        <td class="attendance-percent {% if student.percentage < 75 %}percent-low{% else %}percent-high{% endif %}">
-                            {{ student.percentage }}%
-                        </td>
-                        <td>
-                            <button class="update-btn" onclick="updateAttendance('{{ student.student_id }}', this)">  <!-- Changed from id to student_id -->
-                                <i class="material-icons">save</i> Save
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="attendance-table-container">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Present Classes</th>
+                            <th>Attendance %</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.student_id }}</td>
+                            <td class="present-count">
+                                <input type="number" 
+                                       value="{{ student.present_classes }}" 
+                                       min="0" 
+                                       max="{{ total_classes }}" 
+                                       class="present-input" 
+                                       data-student-id="{{ student.student_id }}">
+                                / {{ total_classes }}
+                            </td>
+                            <td class="attendance-percent {% if student.percentage < 75 %}percent-low{% else %}percent-high{% endif %}">
+                                {{ student.percentage }}%
+                            </td>
+                            <td>
+                                <button class="update-btn" onclick="updateAttendance('{{ student.student_id }}', this)">
+                                    <i class="material-icons">save</i> Save
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
             <div class="action-buttons">
                 <button class="btn btn-outline" onclick="window.location.href='/teacher-classrooms'">
@@ -969,7 +1208,7 @@
             easing: 'ease-in-out',
             once: true
         });
-
+       
         // Toggle sidebar
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
@@ -1185,6 +1424,63 @@ document.getElementById('searchInput').addEventListener('input', function() {
             // In a real implementation, you would fetch filtered data from the server
             // and update the table content
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current month as default if not "All Months"
+            const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed
+            document.getElementById('monthFilter').value = currentMonth;
+            
+            // Filter button functionality
+            document.getElementById('applyFilterBtn').addEventListener('click', function() {
+                applyDateFilter();
+            });
+            
+            // Also apply filter when select changes (optional)
+            document.getElementById('monthFilter').addEventListener('change', applyDateFilter);
+            document.getElementById('yearFilter').addEventListener('change', applyDateFilter);
+        });
+        
+        function applyDateFilter() {
+            const month = document.getElementById('monthFilter').value;
+            const year = document.getElementById('yearFilter').value;
+            
+            // Show loading state
+            const btn = document.getElementById('applyFilterBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="material-icons">hourglass_top</i> Filtering...';
+            btn.disabled = true;
+            
+            // In a real implementation, you would fetch filtered data from the server
+            // For now, we'll simulate a network request
+            setTimeout(() => {
+                // This would be replaced with actual fetch call
+                // fetch(`/api/attendance/filter?month=${month}&year=${year}`)
+                //     .then(response => response.json())
+                //     .then(data => updateTable(data));
+                
+                console.log(`Filtering for month: ${month}, year: ${year}`);
+                
+                // Reset button state
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Show success feedback
+                const toast = document.createElement('div');
+                toast.className = 'filter-toast';
+                toast.innerHTML = `<i class="material-icons">check_circle</i> Filters applied`;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        setTimeout(() => toast.remove(), 300);
+                    }, 3000);
+                }, 50);
+            }, 800);
+        }
+        
+        // Optional: Add this CSS for the toast notification
+       
     </script>
 </body>
 </html>
