@@ -836,7 +836,7 @@
                 padding: 15px;
             }
 
-            .welcome-image {
+            .welcome-image1 {
                 width: 80px;
                 height: 80px;
                 margin-top: 15px;
@@ -879,6 +879,58 @@
                 font-size: 0.85rem;
             }
         }
+        .welcome-image1 {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto;
+            border-radius: 50%;
+            aspect-ratio: 1/1; /* Maintain perfect circle */
+            overflow: hidden;
+            
+            /* Fluid sizing based on viewport width */
+            width: 20vw;
+            max-width: 200px;
+            min-width: 60px;
+            
+            /* Fluid font sizing */
+            font-size: calc(1rem + 3vw);
+          }
+          
+          /* Media queries for fine-tuning at different breakpoints */
+          @media (min-width: 576px) {
+            .welcome-image1 {
+              width: 15vw;
+              font-size: calc(1rem + 2.5vw);
+            }
+          }
+          
+          @media (min-width: 768px) {
+            .welcome-image1 {
+              width: 12vw;
+              font-size: calc(1rem + 2vw);
+              max-width: 150px;
+            }
+          }
+          
+          @media (min-width: 992px) {
+            .welcome-image1 {
+              width: 10vw;
+              font-size: calc(1rem + 1.5vw);
+              max-width: 120px;
+            }
+          }
+          
+          @media (min-width: 1200px) {
+            .welcome-image1 {
+              width: 8vw;
+              font-size: calc(1rem + 1vw);
+              max-width: 100px;
+            }
+          }
     </style>
 </head>
 <body>
@@ -953,10 +1005,10 @@
                 <h1>Manage Your Quizzes, {{ teacher.name }}!</h1>
                 <p>View, edit, or delete your created quizzes. You have created {{ quiz_count }} quizzes so far.</p>
             </div>
-            <div class="welcome-image">
-                <img src="https://ui-avatars.com/api/?name={{ teacher.name }}&background=random&size=200&color=fff&font-size=0.5&bold=true" alt="Teacher Avatar">
+            <div class="welcome-image1" style="background: linear-gradient(135deg, #4361ee, #3a0ca3); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; width: 100px; height: 100px; border-radius: 50%; font-size: calc(50px - (var(--name-length, 0) * 5px));">
+                {{ teacher.name.split(' ')[0][0] }}{{ teacher.name.split(' ')[1][0] if teacher.name.split(' ')|length > 1 else '' }}
             </div>
-        </div>
+        
 
         <!-- Stats Card -->
         <div class="stats-card" data-aos="fade-up">
@@ -982,9 +1034,7 @@
                     <span><i class="material-icons">help_outline</i> {{ quiz.questions|length }} Questions</span>
                 </div>
                 <div class="quiz-actions">
-                    <a href="/edit-quiz/{{ quiz._id }}" class="btn btn-primary hvr-grow">
-                        <i class="material-icons">edit</i> Edit
-                    </a>
+                   
                     <a href="/delete-quiz/{{ quiz._id }}" class="btn btn-danger hvr-grow">
                         <i class="material-icons">delete</i> Delete
                     </a>
