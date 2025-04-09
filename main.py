@@ -567,8 +567,9 @@ async def create_quiz_page(request: Request):
 @app.post("/create-quiz")
 async def create_quiz(request: Request):
     data = await request.json()
-
+    teacher_id = request.session.get("teacher_id")
     quiz_data = {
+        "teacher_id":teacher_id,
         "title": data["title"],
         "description": data["description"],
         "level": data["level"],
