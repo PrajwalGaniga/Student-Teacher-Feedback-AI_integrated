@@ -1419,3 +1419,42 @@ async def export_attendance(classroom_code: str):
             "Content-Type": "application/vnd.ms-excel"
         }
     )
+
+
+@app.get("/manage-quiz", response_class=HTMLResponse)
+async def manage_quiz(request: Request):
+    teacher_id = request.session.get("teacher_id")
+    
+    if not teacher_id:
+        return RedirectResponse(url="/login")
+    
+    quizzes = list(quizzes_collection.find({"teacher_id": teacher_id}))
+    
+    quiz_count = quizzes_collection.count_documents({"teacher_id": teacher_id})
+    
+    teacher = teachers_collection.find_one({"teacher_id": teacher_id})
+    
+    if not teacher:
+        teacher = {"name": "Unknown", "teacher_id": teacher_id}
+    else:
+        teacher = {"name": teacher.get("name", "Unknown"), "teacher_id": teacher_id}
+    
+    return templates.TemplateResponse("quiz_manage.html", {
+        "request": request,
+        "teacher": teacher,
+        "quizzes": quizzes,
+        "quiz_count": quiz_count
+    })
+
+@app.get("/delete-quiz/{quiz_id}")
+async def delete_quiz(quiz_id: str, request: Request):
+    teacher_id = request.session.get("teacher_id")
+    quiz = quizzes_collection.find_one({"_id": ObjectId(quiz_id)})
+    
+    if not quiz or quiz["teacher_id"] != teacher_id:
+        return {"error": "Quiz not found or unauthorized"}
+
+    quizzes_collection.delete_one({"_id": ObjectId(quiz_id)})
+    
+    return RedirectResponse(url="/manage-quiz")
+
