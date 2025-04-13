@@ -16,7 +16,7 @@ from pymongo.errors import PyMongoError
 import os
 import certifi
 import ssl
-import socket
+import socket,pytz
 
 try:
     print(socket.gethostbyname('cluster0-shard-00-00.6qmnao2.mongodb.net'))
@@ -67,6 +67,7 @@ students_collection = db.students
 students_users = db.student_user  # Note: consider renaming to student_users for consistency
 results_collection = db.results
 teachers_collection = db.teachers
+quiz_history_collection = db.quiz_history
 
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -221,26 +222,36 @@ async def verify_student_id(request: Request):
         return {"exists": False}
 
 @app.get("/student-profile/{student_id}", response_class=HTMLResponse)
-async def student_profile(request: Request):
+async def student_profile(request: Request, student_id: str):
     student_id = request.session.get("student_id")
-    if not student_id:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not logged in")
 
     student = students_collection.find_one({"student_id": student_id})
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
 
-    if "progress" not in student:
-        student["progress"] = {
-            "quizzes_attempted": 0,
-            "average_score": 0
-        }
+    quiz_history = list(quiz_history_collection.find({"student_id": student_id}))
+    
+    quizzes_attempted = len(quiz_history)
+    
+    if quizzes_attempted > 0:
+        total_correct = sum(item['correct_answers'] for item in quiz_history)
+        total_questions = sum(item['total_questions'] for item in quiz_history)
+        average_score = round((total_correct / total_questions) * 100, 2) if total_questions > 0 else 0
+    else:
+        average_score = 0
+
+    student["progress"] = {
+        "quizzes_attempted": quizzes_attempted,
+        "average_score": average_score,  
+    }
 
     return templates.TemplateResponse(
         "student_profile.html",
-        {"request": request, "student": student}
+        {
+            "request": request,
+            "student": student  
+        }
     )
-
 @app.post("/student-profile/{student_id}/update")
 async def update_profile(request: Request):
     student_id = request.session.get("student_id")
@@ -607,6 +618,8 @@ async def join_classroom(request: Request, class_code: str = Form(...), student_
 
     return RedirectResponse(url="/student-dashboard", status_code=status.HTTP_303_SEE_OTHER)
 
+ist_timezone = pytz.timezone('Asia/Kolkata')
+submitted_time_ist = datetime.now(ist_timezone)
 @app.post("/submit-quiz")
 async def submit_quiz(request: Request):
     data = await request.json()
@@ -615,17 +628,20 @@ async def submit_quiz(request: Request):
     
     if not quiz:
         raise HTTPException(status_code=404, detail="Quiz not found")
+ 
+    score_percentage = (data["correct_answers"] / len(quiz["questions"])) * 100
     
+  
     result_data = {
-        "student_id": data["student_id"],
-        "quiz_id": data["quiz_id"],
-        "quiz_title": quiz.get("title"),
-        "submitted_at": datetime.now(),
-        "total_questions": len(quiz["questions"]),
-        "correct_answers": data["correct_answers"],
-        "score_percentage": (data["correct_answers"] / len(quiz["questions"])) * 100,
-        "answers": []
-    }
+    "student_id": data["student_id"],
+    "quiz_id": data["quiz_id"],
+    "quiz_title": quiz.get("title"),
+    "submitted_at": submitted_time_ist,  
+    "total_questions": len(quiz["questions"]),
+    "correct_answers": data["correct_answers"],
+    "score_percentage": score_percentage,
+    "answers": []
+}
     
     for answer in data["answers"]:
         result_data["answers"].append({
@@ -634,9 +650,23 @@ async def submit_quiz(request: Request):
             "correct_option": answer["correct_option"],
             "is_correct": answer["selected_option"] == answer["correct_option"]
         })
-    
     results_collection.insert_one(result_data)
-    return {"message": "Quiz submitted successfully!", "score": result_data["score_percentage"]}
+  
+    history_data = {
+        "student_id": data["student_id"],
+        "quiz_id": data["quiz_id"],
+        "total_questions": len(quiz["questions"]),
+        "correct_answers": data["correct_answers"],
+        "submitted_at": datetime.now(),
+        "score_percentage": score_percentage
+    }
+    
+    quiz_history_collection.insert_one(history_data)
+    
+    return {
+        "message": "Quiz submitted successfully!", 
+        "score": result_data["score_percentage"]
+    }
 
 @app.get("/quiz-attempt/{quiz_id}")
 async def quiz_attempt(request: Request, quiz_id: str):
