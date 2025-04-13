@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from pymongo.errors import PyMongoError
 import os
 import certifi
-import ssl
+import ssl,asyncio 
 import socket,pytz
 
 try:
@@ -767,7 +767,9 @@ async def student_dashboard(request: Request):
         "joined_classes": joined_classes
     })
 
-def generate_feedback(question, selected_option, correct_option):
+import asyncio 
+
+async def generate_feedback(question, selected_option, correct_option):
     if selected_option == correct_option:
         return "Correct! Good job!"
     
@@ -787,6 +789,7 @@ def generate_feedback(question, selected_option, correct_option):
     
     try:
         response = model.generate_content(prompt)
+        await asyncio.sleep(1)  # Add 1-second delay between calls
         return response.text
     except Exception as e:
         return f"Could not generate feedback: {str(e)}"
@@ -865,7 +868,7 @@ async def student_report(request: Request):
         feedback_list = []
         for answer in result.get("answers", []):
             if not answer.get("is_correct", False):
-                feedback = generate_feedback(
+                feedback = await generate_feedback(
                     answer.get("question", ""),
                     answer.get("selected_option", ""),
                     answer.get("correct_option", "")
