@@ -323,6 +323,12 @@
             margin-bottom: 10px;
             font-weight: 600;
         }
+        .welcome-text h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
         .welcome-text p {
             color: var(--gray);
@@ -599,6 +605,9 @@
             .welcome-text h1 {
                 font-size: 1.5rem;
             }
+            .welcome-text h1 {
+                font-size: 1.1rem;
+            }
 
             .stats-grid {
                 grid-template-columns: 1fr;
@@ -861,6 +870,7 @@
         <div class="welcome-card animate__animated animate__fadeIn" data-aos="fade-up">
             <div class="welcome-text">
                 <h1>Welcome, {{ student.name }}!</h1>
+                <h2>{{student.student_id}}</h2>
     </div>
             <div class="welcome-image">
                 <img src="https://ui-avatars.com/api/?name={{ student.name }}&background=random&size=200&color=fff" alt="Student Avatar">

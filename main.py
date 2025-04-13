@@ -42,7 +42,7 @@ app.add_middleware(
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.verify_mode = ssl.CERT_REQUIRED
 context.check_hostname = True
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://school_admin:prajwal%402005@cluster0.6qmnao2.mongodb.net/school_db?retryWrites=true&w=majority")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
 
 mongo_client = MongoClient(
     MONGODB_URI,

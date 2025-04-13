@@ -313,6 +313,12 @@
             margin-bottom: 10px;
             font-weight: 600;
         }
+        .welcome-text h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
         .welcome-text p {
             color: var(--gray);
@@ -564,6 +570,9 @@
 
             .welcome-text h1 {
                 font-size: 1.5rem;
+            }
+            .welcome-text h2 {
+                font-size: 1.1rem;
             }
 
             .stats-grid {
@@ -828,6 +837,7 @@
         <div class="welcome-card animate__animated animate__fadeIn" data-aos="fade-up">
             <div class="welcome-text">
                 <h1>Welcome, {{ teacher.name }}!</h1>
+                <h2>{{teacher.teacher_id}}</h2>
                 </a>
             </div>
             <div class="welcome-image">
